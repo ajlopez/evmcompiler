@@ -1,0 +1,30 @@
+{
+  "name": "evmcompiler",
+  "description": "Compiles an AST (Abstract Syntax Tree) to Ethereum Virtual Machine bytecodes, WIP",
+  "keywords": [
+    "ethereum",
+    "evm",
+    "programming",
+    "compiler"
+  ],
+  "version": "0.0.1alpha",
+  "author": "Angel 'Java' Lopez <webmaster@ajlopez.com> (http://www.ajlopez.com)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ajlopez/evmcompiler.git"
+  },
+  "main": "./lib/evmcompiler.js",
+  "engines": {
+    "node": ">= 8.0.0"
+  },
+  "scripts": {
+    "test": "simpleunit ./test -r"
+  },
+  "dependencies": {
+    "geast": "0.0.4",
+    "gelex": "0.0.4"
+  },
+  "devDependencies": {
+    "simpleunit": "0.0.8"
+  }
+}
