@@ -177,3 +177,14 @@ exports['compile pushes'] = function (test) {
     test.equal(result, '606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f');
 };
 
+exports['compile dups'] = function (test) {
+    let result = bc.compiler();
+    
+    for (let k = 1; k <= 16; k++)
+        result.dup(k);
+    
+    result = result.bytecodes();
+        
+    test.equal(result, '808182838485868788898a8b8c8d8e8f');
+};
+
