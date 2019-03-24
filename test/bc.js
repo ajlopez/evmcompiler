@@ -126,3 +126,16 @@ exports['compile gasprice, extcodesize, extcodecopy'] = function (test) {
         
     test.equal(result, '3a3b3c');
 };
+
+exports['compile blockhash, coinbase, timestamp, number, difficulty, gaslimit'] = function (test) {
+    const result = bc.compiler()
+        .blockhash()
+        .coinbase()
+        .timestamp()
+        .number()
+        .difficulty()
+        .gaslimit()
+        .bytecodes();
+        
+    test.equal(result, '404142434445');
+};
