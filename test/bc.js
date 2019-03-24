@@ -188,3 +188,14 @@ exports['compile dups'] = function (test) {
     test.equal(result, '808182838485868788898a8b8c8d8e8f');
 };
 
+exports['compile swaps'] = function (test) {
+    let result = bc.compiler();
+    
+    for (let k = 1; k <= 16; k++)
+        result.swap(k);
+    
+    result = result.bytecodes();
+        
+    test.equal(result, '909192939495969798999a9b9c9d9e9f');
+};
+
