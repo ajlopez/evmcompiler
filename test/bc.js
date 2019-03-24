@@ -165,3 +165,15 @@ exports['compile jump, jumpi, pc, msize, gas, jumpdest'] = function (test) {
         
     test.equal(result, '565758595a5b');
 };
+
+exports['compile pushes'] = function (test) {
+    let result = bc.compiler();
+    
+    for (let k = 1; k <= 32; k++)
+        result.push(k);
+    
+    result = result.bytecodes();
+        
+    test.equal(result, '606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f');
+};
+
