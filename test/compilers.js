@@ -89,3 +89,27 @@ exports['compile store storage with two bytes offset'] = function (test) {
     test.equal(compiler.bytecodes(), '61010055');
 };
 
+exports['compile load local'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    compiler.enterfn(0);
+    compiler.value(1);
+    compiler.value(2);
+    compiler.value(3);
+    compiler.loadLocal(0);
+    
+    test.equal(compiler.bytecodes(), '60016002600382');
+};
+
+exports['compile store local'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    compiler.enterfn(0);
+    compiler.value(1);
+    compiler.value(2);
+    compiler.value(3);
+    compiler.storeLocal(0);
+    
+    test.equal(compiler.bytecodes(), '6001600260039150');
+};
+
