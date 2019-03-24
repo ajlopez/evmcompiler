@@ -40,3 +40,14 @@ exports['compile exp, signextend'] = function (test) {
         
     test.equal(result, '0a0b');
 };
+
+exports['compile lt, gt, slt, sgt'] = function (test) {
+    const result = bc.compiler()
+        .lt()
+        .gt()
+        .slt()
+        .sgt()
+        .bytecodes();
+        
+    test.equal(result, '10111213');
+};
