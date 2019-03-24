@@ -20,10 +20,9 @@
   "scripts": {
     "test": "simpleunit ./test -r"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "geast": "0.0.4",
+    "geast": "0.0.5",
     "gelex": "0.0.4",
     "simpleunit": "0.0.8"
   }
