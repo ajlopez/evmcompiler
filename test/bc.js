@@ -19,3 +19,15 @@ exports['compile add, mul, sub, div'] = function (test) {
         
     test.equal(result, '01020304');
 };
+
+exports['compile sdiv, mod, smod, addmod, mulmod'] = function (test) {
+    const result = bc.compiler()
+        .sdiv()
+        .mod()
+        .smod()
+        .addmod()
+        .mulmod()
+        .bytecodes();
+        
+    test.equal(result, '0506070809');
+};
