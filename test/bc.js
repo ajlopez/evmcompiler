@@ -51,3 +51,16 @@ exports['compile lt, gt, slt, sgt'] = function (test) {
         
     test.equal(result, '10111213');
 };
+
+exports['compile eq, iszero, and, or, xor, not'] = function (test) {
+    const result = bc.compiler()
+        .eq()
+        .iszero()
+        .and()
+        .or()
+        .xor()
+        .not()
+        .bytecodes();
+        
+    test.equal(result, '141516171819');
+};
