@@ -21,10 +21,10 @@
     "test": "simpleunit ./test -r"
   },
   "dependencies": {
-    "geast": "0.0.4",
-    "gelex": "0.0.4"
   },
   "devDependencies": {
+    "geast": "0.0.4",
+    "gelex": "0.0.4",
     "simpleunit": "0.0.8"
   }
 }
