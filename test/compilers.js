@@ -9,3 +9,11 @@ exports['compile load storage'] = function (test) {
     test.equal(compiler.bytecodes(), '600155');
 };
 
+exports['compile load storage with two bytes offset'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    compiler.loadStorage(256);
+    
+    test.equal(compiler.bytecodes(), '61010055');
+};
+
