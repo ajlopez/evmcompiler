@@ -10,3 +10,12 @@ exports['compile add numbers'] = function (test) {
     
     test.equal(compiler.bytecodes(), '602a600101');
 };
+
+exports['compile multiply numbers'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('*', geast.constant(42), geast.constant(1));
+    
+    compiler.process(constant);
+    
+    test.equal(compiler.bytecodes(), '602a600102');
+};
