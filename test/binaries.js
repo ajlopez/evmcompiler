@@ -55,3 +55,12 @@ exports['compile less numbers'] = function (test) {
     
     test.equal(compiler.bytecodes(), '602a600110');
 };
+
+exports['compile greater numbers'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('>', geast.constant(42), geast.constant(1));
+    
+    compiler.process(constant);
+    
+    test.equal(compiler.bytecodes(), '602a600111');
+};
