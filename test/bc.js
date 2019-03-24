@@ -64,3 +64,14 @@ exports['compile eq, iszero, and, or, xor, not'] = function (test) {
         
     test.equal(result, '141516171819');
 };
+
+exports['compile byte, shl, shr, sar'] = function (test) {
+    const result = bc.compiler()
+        .byte()
+        .shl()
+        .shr()
+        .sar()
+        .bytecodes();
+        
+    test.equal(result, '1a1b1c1d');
+};
