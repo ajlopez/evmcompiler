@@ -139,3 +139,16 @@ exports['compile blockhash, coinbase, timestamp, number, difficulty, gaslimit'] 
         
     test.equal(result, '404142434445');
 };
+
+exports['compile pop, mload, mstore, mstore8, sload, sstore'] = function (test) {
+    const result = bc.compiler()
+        .pop()
+        .mload()
+        .mstore()
+        .mstore8()
+        .sload()
+        .sstore()
+        .bytecodes();
+        
+    test.equal(result, '505152535455');
+};
