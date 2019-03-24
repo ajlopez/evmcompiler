@@ -75,3 +75,33 @@ exports['compile byte, shl, shr, sar'] = function (test) {
         
     test.equal(result, '1a1b1c1d');
 };
+
+exports['compile sha3'] = function (test) {
+    const result = bc.compiler()
+        .sha3()
+        .bytecodes();
+        
+    test.equal(result, '20');
+};
+
+exports['compile address, balance, origin, caller'] = function (test) {
+    const result = bc.compiler()
+        .address()
+        .balance()
+        .origin()
+        .caller()
+        .bytecodes();
+        
+    test.equal(result, '30313233');
+};
+
+exports['compile callvalue, calldataload, calldatasize calldatacopy'] = function (test) {
+    const result = bc.compiler()
+        .callvalue()
+        .calldataload()
+        .calldatasize()
+        .calldatacopy()
+        .bytecodes();
+        
+    test.equal(result, '34353637');
+};
