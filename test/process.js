@@ -24,3 +24,7 @@ exports['process origin'] = function (test) {
 exports['process caller'] = function (test) {
     process(test, 'caller', '33');
 };
+
+exports['process value'] = function (test) {
+    process(test, 'value', '34');
+};
