@@ -105,3 +105,24 @@ exports['compile callvalue, calldataload, calldatasize calldatacopy'] = function
         
     test.equal(result, '34353637');
 };
+
+exports['compile codesize, codecopy, returndatasize, returndatacopy'] = function (test) {
+    const result = bc.compiler()
+        .codesize()
+        .codecopy()
+        .returndatasize()
+        .returndatacopy()
+        .bytecodes();
+        
+    test.equal(result, '38393d3e');
+};
+
+exports['compile gasprice, extcodesize, extcodecopy'] = function (test) {
+    const result = bc.compiler()
+        .gasprice()
+        .extcodesize()
+        .extcodecopy()
+        .bytecodes();
+        
+    test.equal(result, '3a3b3c');
+};
