@@ -31,3 +31,12 @@ exports['compile sdiv, mod, smod, addmod, mulmod'] = function (test) {
         
     test.equal(result, '0506070809');
 };
+
+exports['compile exp, signextend'] = function (test) {
+    const result = bc.compiler()
+        .exp()
+        .signextend()
+        .bytecodes();
+        
+    test.equal(result, '0a0b');
+};
