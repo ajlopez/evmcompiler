@@ -152,3 +152,16 @@ exports['compile pop, mload, mstore, mstore8, sload, sstore'] = function (test) 
         
     test.equal(result, '505152535455');
 };
+
+exports['compile jump, jumpi, pc, msize, gas, jumpdest'] = function (test) {
+    const result = bc.compiler()
+        .jump()
+        .jumpi()
+        .pc()
+        .msize()
+        .gas()
+        .jumpdest()
+        .bytecodes();
+        
+    test.equal(result, '565758595a5b');
+};
