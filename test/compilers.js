@@ -113,3 +113,19 @@ exports['compile store local'] = function (test) {
     test.equal(compiler.bytecodes(), '6001600260039150');
 };
 
+exports['compile load first data argument'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    compiler.loadDataArgument(0);
+    
+    test.equal(compiler.bytecodes(), '600435');
+};
+
+exports['compile load second data argument'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    compiler.loadDataArgument(1);
+    
+    test.equal(compiler.bytecodes(), '602435');
+};
+
