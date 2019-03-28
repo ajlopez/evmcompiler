@@ -28,3 +28,8 @@ exports['process caller'] = function (test) {
 exports['process value'] = function (test) {
     process(test, 'value', '34');
 };
+
+exports['process return without expression'] = function (test) {
+    process(test, 'return', '60006000f3');
+};
+
