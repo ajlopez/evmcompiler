@@ -33,3 +33,12 @@ exports['process return without expression'] = function (test) {
     process(test, 'return', '60006000f3');
 };
 
+exports['process return with expression'] = function (test) {
+    const compiler = compilers.compiler();
+    const node = geast.return(geast.constant(42));
+    
+    compiler.process(node);
+    
+    test.equal(compiler.bytecodes(), "602a60005260206000f3");
+};
+
