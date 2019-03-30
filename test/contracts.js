@@ -17,17 +17,16 @@ exports['process contract with empty method'] = function (test) {
     compiler.process(node);
     
     test.equal(compiler.bytecodes(), "5b60006000f3");
+
+    const context = compiler.context();
     
-    const result = compiler.fns();
+    test.ok(context);
     
-    test.ok(result);
-    test.ok(Array.isArray(result));
-    test.equal(result.length, 1);
+    const fndef = context.get('foo()');
     
-    test.equal(result[0].signature, "foo()");
-    test.equal(result[0].hash, keccak("foo()").substring(0, 8));
-    
-    test.ok(compiler.context());
+    test.ok(fndef);
+    test.equal(fndef.signature, "foo()");
+    test.equal(fndef.hash, keccak("foo()").substring(0, 8));
 }
 
 exports['process contract with variable declaration'] = function (test) {
@@ -39,12 +38,6 @@ exports['process contract with variable declaration'] = function (test) {
         ]));
         
     compiler.process(node);
-    
-    const result = compiler.fns();
-    
-    test.ok(result);
-    test.ok(Array.isArray(result));
-    test.equal(result.length, 0);
     
     const context = compiler.context();
     
