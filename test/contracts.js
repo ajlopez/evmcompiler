@@ -50,3 +50,33 @@ exports['process contract with variable declaration'] = function (test) {
     test.equal(counter.type, 'uint256');
     test.strictEqual(counter.offset, 0);
 }
+
+exports['process contract with two variable declaration'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    const node = geast.contract('Counter',
+        geast.sequence([
+            geast.variable('counter', 'uint'),
+            geast.variable('total', 'uint')
+        ]));
+        
+    compiler.process(node);
+    
+    const context = compiler.context();
+    
+    test.ok(context);
+    
+    const counter = context.get('counter');
+    
+    test.ok(counter);
+    test.equal(counter.scope, 'contract');
+    test.equal(counter.type, 'uint256');
+    test.strictEqual(counter.offset, 0);
+    
+    const total = context.get('total');
+    
+    test.ok(total);
+    test.equal(total.scope, 'contract');
+    test.equal(total.type, 'uint256');
+    test.strictEqual(total.offset, 1);
+}
