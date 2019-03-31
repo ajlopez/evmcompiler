@@ -223,3 +223,17 @@ exports['compile label and offset'] = function (test) {
     test.equal(result, '60015b6002610002');
 };
 
+exports['compile offset and label'] = function (test) {
+    const compiler = bc.compiler();
+    
+    compiler.value(1);
+    compiler.offset('tag_1');
+    compiler.value(2);
+    compiler.label('tag_1');
+    compiler.jumpdest();
+    
+    const result = compiler.bytecodes();
+        
+    test.equal(result, '600161000760025b');
+};
+
