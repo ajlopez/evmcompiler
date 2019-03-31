@@ -33,7 +33,7 @@ exports['process contract with empty method'] = function (test) {
         
     compiler.process(node);
 
-    let prologue = '3660041061____5735'
+    let prologue = '3660041061____57600035'
         + '7c0100000000000000000000000000000000000000000000000000000000'
         + '900463ffffffff1680'
         + '63' + keccak("foo()").substring(0, 8)
@@ -127,7 +127,7 @@ exports['process contract with variable declaration and method returning variabl
         
     compiler.process(node);
     
-    let prologue = '3660041061____5735'
+    let prologue = '3660041061____57600035'
         + '7c0100000000000000000000000000000000000000000000000000000000'
         + '900463ffffffff1680'
         + '63' + keccak("getCounter()").substring(0, 8)
@@ -179,7 +179,7 @@ exports['process contract with variable declaration and method modifying variabl
         
     compiler.process(node);
     
-    let prologue = '3660041061____5735'
+    let prologue = '3660041061____57600035'
         + '7c0100000000000000000000000000000000000000000000000000000000'
         + '900463ffffffff1680'
         + '63' + keccak("increment()").substring(0, 8)
@@ -231,7 +231,7 @@ exports['process contract with variable declaration and method modifying variabl
         
     compiler.process(node);
     
-    let prologue = '3660041061____5735'
+    let prologue = '3660041061____57600035'
         + '7c0100000000000000000000000000000000000000000000000000000000'
         + '900463ffffffff1680'
         + '63' + keccak("add(uint256)").substring(0, 8)
