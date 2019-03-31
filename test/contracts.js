@@ -48,4 +48,5 @@ exports['process contract with variable declaration'] = function (test) {
     test.ok(counter);
     test.equal(counter.scope, 'contract');
     test.equal(counter.type, 'uint256');
+    test.strictEqual(counter.offset, 0);
 }
