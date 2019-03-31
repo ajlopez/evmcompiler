@@ -189,13 +189,37 @@ exports['compile dups'] = function (test) {
 };
 
 exports['compile swaps'] = function (test) {
-    let result = bc.compiler();
+    const compiler = bc.compiler();
     
     for (let k = 1; k <= 16; k++)
-        result.swap(k);
+        compiler.swap(k);
     
-    result = result.bytecodes();
+    const result = compiler.bytecodes();
         
     test.equal(result, '909192939495969798999a9b9c9d9e9f');
+};
+
+exports['compile unresolved offset'] = function (test) {
+    const compiler = bc.compiler();
+    
+    compiler.offset('tag_1');
+    
+    const result = compiler.bytecodes();
+        
+    test.equal(result, '61____');
+};
+
+exports['compile label and offset'] = function (test) {
+    const compiler = bc.compiler();
+    
+    compiler.value(1);
+    compiler.label('tag_1');
+    compiler.jumpdest();
+    compiler.value(2);
+    compiler.offset('tag_1');
+    
+    const result = compiler.bytecodes();
+        
+    test.equal(result, '60015b6002610002');
 };
 
