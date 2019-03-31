@@ -6,6 +6,23 @@ const geast = require('geast');
 geast.node('method', [ 'name', 'type', 'visibility', 'arguments', 'body' ]);
 geast.node('contract', [ 'name', 'body' ]);
 
+function toHex2(value) {
+    let result = value.toString(16);
+    
+    if (result.length < 4)
+        result = '0'.repeat(4 - result.length) + result;
+    
+    return result;
+}
+
+function resolve(bytecodes, value) {
+    const offset = bytecodes.indexOf('____');
+    
+    return bytecodes.substring(0, offset)
+    + toHex2(value)
+    + bytecodes.substring(offset + 4);
+}
+
 exports['process contract with empty method'] = function (test) {
     const compiler = compilers.compiler();
     
@@ -15,8 +32,23 @@ exports['process contract with empty method'] = function (test) {
         ]));
         
     compiler.process(node);
+
+    let prologue = '3660041061____5735'
+        + '7c0100000000000000000000000000000000000000000000000000000000'
+        + '900463ffffffff1680'
+        + '63' + keccak("foo()").substring(0, 8)
+        + '1461____57';
+        
+    const offrevert = prologue.length / 2;
     
-    test.equal(compiler.bytecodes(), "5b60006000f3");
+    prologue += '5bfd';
+    
+    const offmethod = prologue.length / 2;
+    
+    prologue = resolve(prologue, offrevert);
+    prologue = resolve(prologue, offmethod);
+    
+    test.equal(compiler.bytecodes(), prologue + "5b60006000f3");
 
     const context = compiler.context();
     
