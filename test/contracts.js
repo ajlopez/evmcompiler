@@ -215,3 +215,55 @@ exports['process contract with variable declaration and method modifying variabl
     test.equal(increment.hash, keccak("increment()").substring(0, 8));
 }
 
+exports['process contract with variable declaration and method modifying variable using argument'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    const node = geast.contract('Counter',
+        geast.sequence([
+            geast.variable('counter', 'uint'),
+            geast.method('add', 'void', 'public', [ geast.argument('value', 'uint') ], 
+                geast.assignment(
+                    geast.name('counter'), 
+                    geast.binary('+', geast.name('counter'), geast.name('value'))
+                )
+            )
+        ]));
+        
+    compiler.process(node);
+    
+    let prologue = '3660041061____5735'
+        + '7c0100000000000000000000000000000000000000000000000000000000'
+        + '900463ffffffff1680'
+        + '63' + keccak("add(uint256)").substring(0, 8)
+        + '1461____57';
+        
+    const offrevert = prologue.length / 2;
+    
+    prologue += '5bfd';
+    
+    const offmethod = prologue.length / 2;
+    
+    prologue = resolve(prologue, offrevert);
+    prologue = resolve(prologue, offmethod);
+
+    test.equal(compiler.bytecodes(), 
+        prologue + "5b6000546004350160005560006000f3");
+
+    const context = compiler.context();
+    
+    test.ok(context);
+    
+    const counter = context.get('counter');
+    
+    test.ok(counter);
+    test.equal(counter.scope, 'contract');
+    test.equal(counter.type, 'uint256');
+    test.strictEqual(counter.offset, 0);
+
+    const add = context.get('add(uint256)');
+    
+    test.ok(add);
+    test.equal(add.signature, "add(uint256)");
+    test.equal(add.hash, keccak("add(uint256)").substring(0, 8));
+}
+
