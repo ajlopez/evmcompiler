@@ -7,7 +7,7 @@ geast.node('method', [ 'name', 'type', 'visibility', 'arguments', 'body' ]);
 
 exports['process empty method'] = function (test) {
     const compiler = compilers.compiler();
-    const node = geast.method('foo', 'void', 'public', [], geast.return());
+    const node = geast.method('foo', 'void', 'public', [], geast.sequence([]));
     
     compiler.process(node);
     
