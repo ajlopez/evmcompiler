@@ -6,6 +6,10 @@ Compiles an AST (Abstract Syntax Tree) to Ethereum Virtual Machine bytecodes, WI
 
 TBD
 
+## Versions
+
+- 0.0.1 First published version.
+
 ## References
 
 TBD
