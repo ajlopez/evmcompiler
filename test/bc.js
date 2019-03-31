@@ -214,7 +214,6 @@ exports['compile label and offset'] = function (test) {
     
     compiler.value(1);
     compiler.label('tag_1');
-    compiler.jumpdest();
     compiler.value(2);
     compiler.offset('tag_1');
     
@@ -230,7 +229,6 @@ exports['compile offset and label'] = function (test) {
     compiler.offset('tag_1');
     compiler.value(2);
     compiler.label('tag_1');
-    compiler.jumpdest();
     
     const result = compiler.bytecodes();
         
