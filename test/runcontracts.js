@@ -62,3 +62,48 @@ exports['run contract with variable declaration and method returning variable'] 
         test.done();
     });
 }
+
+exports['process contract with variable declaration and method modifying variable'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    const node = geast.contract('Counter',
+        geast.sequence([
+            geast.variable('counter', 'uint'),
+            geast.method('getCounter', 'uint', 'public', [], 
+                geast.return(geast.name('counter'))
+            ),
+            geast.method('increment', 'void', 'public', [], 
+                geast.assignment(
+                    geast.name('counter'), 
+                    geast.binary('+', geast.name('counter'), geast.constant(1))
+                )
+            )
+        ]));
+        
+    compiler.process(node);
+    
+    const code = compiler.bytecodes();
+    const vm = new VM();
+    const bytes = Buffer.from(code, 'hex');
+    const data = Buffer.from(keccak("increment()").substring(0, 8), 'hex');
+
+    test.async();
+    
+    vm.runCode({ code: bytes, data: data, gasLimit: 30000000 }, function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        test.ok(data.return);
+        test.equal(data.return.length, 0);
+        
+        const data2 = Buffer.from(keccak("getCounter()").substring(0, 8), 'hex');
+
+        vm.runCode({ code: bytes, data: data2, gasLimit: 30000000 }, function (err, data) {
+            test.ok(!err);
+            test.ok(data);
+            test.ok(data.return);
+            test.equal(data.return.length, 32);
+            test.equal(parseInt(data.return.toString('hex'), 16), 1);
+            test.done();
+        });
+    });    
+}
