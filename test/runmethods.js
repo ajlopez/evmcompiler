@@ -55,3 +55,36 @@ exports['run method that returns a constant'] = function (test) {
         test.done();
     });
 }
+
+exports['run method that receives an argument and returns value'] = function (test) {
+    const compiler = compilers.compiler();
+    const node = geast.method('foo', 'uint', 'public',
+        [ geast.argument('value', 'uint') ], 
+        geast.return(
+            geast.binary('+', 
+                geast.name('value'), 
+                geast.constant(1))
+        )
+    );
+    
+    compiler.process(node);
+    
+    const code = compiler.bytecodes();
+    const vm = new VM();
+    const bytes = Buffer.from(code, 'hex');
+    const data = Buffer.from('666666660000000000000000000000000000000000000000000000000000000000000001', 'hex');
+
+    test.async();
+    
+    vm.runCode({ code: bytes, data: data, gasLimit: 30000000 }, function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
+        test.ok(data.return);
+        test.equal(data.return.length, 32);
+        test.equal(parseInt(data.return.toString('hex'), 16), 2);
+        test.done();
+    });
+}
