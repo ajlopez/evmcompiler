@@ -22,6 +22,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "ethereumjs-vm": "^3.0.0",
     "geast": "0.0.6",
     "gelex": "0.0.4",
     "simpleunit": "0.0.8"

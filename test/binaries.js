@@ -8,7 +8,7 @@ exports['compile add numbers'] = function (test) {
     
     compiler.process(constant);
     
-    test.equal(compiler.bytecodes(), '602a600101');
+    test.equal(compiler.bytecodes(), '6001602a01');
 };
 
 exports['compile multiply numbers'] = function (test) {
@@ -17,7 +17,7 @@ exports['compile multiply numbers'] = function (test) {
     
     compiler.process(constant);
     
-    test.equal(compiler.bytecodes(), '602a600102');
+    test.equal(compiler.bytecodes(), '6001602a02');
 };
 
 exports['compile subtract numbers'] = function (test) {
@@ -26,7 +26,7 @@ exports['compile subtract numbers'] = function (test) {
     
     compiler.process(constant);
     
-    test.equal(compiler.bytecodes(), '602a600103');
+    test.equal(compiler.bytecodes(), '6001602a03');
 };
 
 exports['compile divide numbers'] = function (test) {
@@ -35,7 +35,7 @@ exports['compile divide numbers'] = function (test) {
     
     compiler.process(constant);
     
-    test.equal(compiler.bytecodes(), '602a600104');
+    test.equal(compiler.bytecodes(), '6001602a04');
 };
 
 exports['compile equal numbers'] = function (test) {
@@ -44,7 +44,7 @@ exports['compile equal numbers'] = function (test) {
     
     compiler.process(constant);
     
-    test.equal(compiler.bytecodes(), '602a600114');
+    test.equal(compiler.bytecodes(), '6001602a14');
 };
 
 exports['compile less numbers'] = function (test) {
@@ -53,7 +53,7 @@ exports['compile less numbers'] = function (test) {
     
     compiler.process(constant);
     
-    test.equal(compiler.bytecodes(), '602a600110');
+    test.equal(compiler.bytecodes(), '6001602a10');
 };
 
 exports['compile greater numbers'] = function (test) {
@@ -62,5 +62,5 @@ exports['compile greater numbers'] = function (test) {
     
     compiler.process(constant);
     
-    test.equal(compiler.bytecodes(), '602a600111');
+    test.equal(compiler.bytecodes(), '6001602a11');
 };

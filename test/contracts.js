@@ -195,7 +195,7 @@ exports['process contract with variable declaration and method modifying variabl
     prologue = resolve(prologue, offmethod);
 
     test.equal(compiler.bytecodes(), 
-        prologue + "5b60005460010160005560006000f3");
+        prologue + "5b60016000540160005560006000f3");
 
     const context = compiler.context();
     
@@ -247,7 +247,7 @@ exports['process contract with variable declaration and method modifying variabl
     prologue = resolve(prologue, offmethod);
 
     test.equal(compiler.bytecodes(), 
-        prologue + "5b6000546004350160005560006000f3");
+        prologue + "5b6004356000540160005560006000f3");
 
     const context = compiler.context();
     
