@@ -73,7 +73,7 @@ exports['process contract with variable declaration and method modifying variabl
                 geast.return(geast.name('counter'))
             ),
             geast.method('increment', 'void', 'public', [], 
-                geast.assignment(
+                geast.assign(
                     geast.name('counter'), 
                     geast.binary('+', geast.name('counter'), geast.constant(1))
                 )
@@ -118,13 +118,13 @@ exports['process contract with variable declaration and two methods modifying va
                 geast.return(geast.name('counter'))
             ),
             geast.method('increment', 'void', 'public', [], 
-                geast.assignment(
+                geast.assign(
                     geast.name('counter'), 
                     geast.binary('+', geast.name('counter'), geast.constant(1))
                 )
             ),
             geast.method('add', 'void', 'public', [ geast.argument('value', 'uint') ], 
-                geast.assignment(
+                geast.assign(
                     geast.name('counter'), 
                     geast.binary('+', geast.name('counter'), geast.name('value'))
                 )
