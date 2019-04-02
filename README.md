@@ -13,6 +13,23 @@ TBD
 - 0.0.3 Process local variables, loop and conditional commands
 - 0.0.4 Process break and continue commands
 
+## To Do
+
+- Management of local variables
+- Call private, internal, external methods
+- Compile for commands
+- Pass arguments in stack when needed
+- Returns result in stack when needed
+- Contract inheritance
+- String support
+- Mapping support
+- Dynamic arrays support
+- Static array support
+- Call another contract
+- Transfer value to another address
+- Pure, view methods
+- Generate ABI
+
 ## References
 
 TBD
