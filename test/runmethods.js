@@ -119,3 +119,36 @@ exports['run method that declares local variable with value and return its value
     });
 }
 
+exports['run method that declares local variable with value, modify it and return its value'] = function (test) {
+    const compiler = compilers.compiler();
+    const node = geast.method('foo', 'uint', 'public',
+        [], 
+        geast.sequence([
+            geast.variable('answer', 'uint', geast.constant(21)),
+            geast.variable('k', 'uint', geast.constant(0)),
+            geast.assign(geast.name('answer'),
+                geast.binary('*', geast.name('answer'), geast.constant(2))
+            ),
+            geast.return(geast.name('answer'))
+        ])
+    );
+    
+    compiler.process(node);
+    
+    const code = compiler.bytecodes();
+    const vm = new VM();
+    const bytes = Buffer.from(code, 'hex');
+    const data = Buffer.from('66666666', 'hex');
+
+    test.async();
+    
+    vm.runCode({ code: bytes, data: data, gasLimit: 30000000 }, function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        test.ok(data.return);
+        test.equal(data.return.length, 32);
+        test.equal(parseInt(data.return.toString('hex'), 16), 42);
+        test.done();
+    });
+}
+
