@@ -11,6 +11,7 @@ TBD
 - 0.0.1 First published version
 - 0.0.2 Fix check datasize; fix  binary order evaluation; using geast@0.0.7
 - 0.0.3 Process local variables, loop and conditional commands
+- 0.0.4 Process break and continue commands
 
 ## References
 
