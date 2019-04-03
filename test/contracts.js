@@ -49,7 +49,7 @@ exports['process contract with empty method'] = function (test) {
     prologue = resolve(prologue, offmethod);
     
     test.equal(compiler.bytecodes(), 
-        prologue + "5b60006000f3");
+        prologue + "5b00");
 
     const context = compiler.context();
     
@@ -199,7 +199,7 @@ exports['process contract with variable declaration and method modifying variabl
     prologue = resolve(prologue, offmethod);
 
     test.equal(compiler.bytecodes(), 
-        prologue + "5b60016000540160005560006000f3");
+        prologue + "5b60016000540160005500");
 
     const context = compiler.context();
     
@@ -253,7 +253,7 @@ exports['process contract with variable declaration and method modifying variabl
     prologue = resolve(prologue, offmethod);
 
     test.equal(compiler.bytecodes(), 
-        prologue + "5b6004356000540160005560006000f3");
+        prologue + "5b6004356000540160005500");
 
     const context = compiler.context();
     

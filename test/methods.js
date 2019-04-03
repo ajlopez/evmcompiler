@@ -11,6 +11,6 @@ exports['process empty method'] = function (test) {
     
     compiler.process(node);
     
-    test.equal(compiler.bytecodes(), "5b60006000f3");
+    test.equal(compiler.bytecodes(), "5b00");
 }
 

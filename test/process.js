@@ -32,7 +32,7 @@ exports['process value'] = function (test) {
 };
 
 exports['process return without expression'] = function (test) {
-    process(test, 'return', '60006000f3');
+    process(test, 'return', '00');
 };
 
 exports['process return with expression'] = function (test) {
