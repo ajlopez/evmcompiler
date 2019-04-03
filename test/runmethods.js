@@ -116,6 +116,9 @@ exports['run method that declares local variables with value and return its valu
     vm.runCode({ code: bytes, data: data, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 42);
@@ -149,6 +152,9 @@ exports['run method that declares local variable with value, modify it and retur
     vm.runCode({ code: bytes, data: data, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 42);
@@ -191,6 +197,9 @@ exports['run loop command using local variable'] = function (test) {
     vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 42);
@@ -230,6 +239,9 @@ exports['run loop command with break'] = function (test) {
     vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 0);
@@ -275,6 +287,9 @@ exports['run loop command with continue'] = function (test) {
     vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 100);
@@ -323,6 +338,9 @@ exports['run for command'] = function (test) {
     vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 6);
@@ -374,6 +392,9 @@ exports['run for command with break'] = function (test) {
     vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 1);
@@ -422,6 +443,9 @@ exports['run for command without pre'] = function (test) {
     vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 6);
@@ -473,6 +497,9 @@ exports['run for command without pre and post'] = function (test) {
     vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 6);
@@ -529,6 +556,9 @@ exports['run for command with continue'] = function (test) {
     vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 6);

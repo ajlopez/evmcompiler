@@ -9,6 +9,7 @@ geast.node('method', [ 'name', 'type', 'visibility', 'arguments', 'body' ]);
 
 exports['run conditional command'] = function (test) {
     const compiler = compilers.compiler();
+    compiler.context(contexts.context('method'));
     const node = geast.conditional(
         geast.constant(1),
         geast.return(geast.constant(42)),
@@ -26,6 +27,9 @@ exports['run conditional command'] = function (test) {
     vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 42);
@@ -35,6 +39,7 @@ exports['run conditional command'] = function (test) {
 
 exports['run else command in conditional command'] = function (test) {
     const compiler = compilers.compiler();
+    compiler.context(contexts.context('method'));
     const node = geast.conditional(
         geast.constant(0),
         geast.return(geast.constant(42)),
@@ -52,6 +57,9 @@ exports['run else command in conditional command'] = function (test) {
     vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 1);
@@ -61,6 +69,7 @@ exports['run else command in conditional command'] = function (test) {
 
 exports['run conditional command without else command'] = function (test) {
     const compiler = compilers.compiler();
+    compiler.context(contexts.context('method'));
     const node = geast.conditional(
         geast.constant(1),
         geast.return(geast.constant(42))
@@ -77,6 +86,9 @@ exports['run conditional command without else command'] = function (test) {
     vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
         test.ok(!err);
         test.ok(data);
+        test.ok(data.runState);
+        test.ok(data.runState.stack);
+        test.equal(data.runState.stack.length, 0);
         test.ok(data.return);
         test.equal(data.return.length, 32);
         test.equal(parseInt(data.return.toString('hex'), 16), 42);

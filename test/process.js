@@ -1,5 +1,6 @@
 
 const compilers = require('../lib/compilers');
+const contexts = require('../lib/contexts');
 const geast = require('geast');
 
 geast.node('origin', []);
@@ -10,6 +11,7 @@ geast.node('value', []);
 
 function process(test, op, expected) {
     const compiler = compilers.compiler();
+    compiler.context(contexts.context('method'));
     const node = geast[op]();
     
     compiler.process(node);
@@ -35,6 +37,7 @@ exports['process return without expression'] = function (test) {
 
 exports['process return with expression'] = function (test) {
     const compiler = compilers.compiler();
+    compiler.context(contexts.context('method'));
     const node = geast.return(geast.constant(42));
     
     compiler.process(node);
