@@ -33,7 +33,7 @@ exports['run empty method'] = function (test) {
 exports['run method that returns a constant'] = function (test) {
     const compiler = compilers.compiler();
     const node = geast.method('foo', 'uint', 'public', [], 
-        geast.return(geast.constant(42)));
+        geast.sequence([ geast.return(geast.constant(42)) ]));
     
     compiler.process(node);
     
@@ -60,11 +60,13 @@ exports['run method that receives an argument and returns value'] = function (te
     const compiler = compilers.compiler();
     const node = geast.method('foo', 'uint', 'public',
         [ geast.argument('value', 'uint') ], 
-        geast.return(
-            geast.binary('+', 
-                geast.name('value'), 
-                geast.constant(1))
-        )
+        geast.sequence([
+            geast.return(
+                geast.binary('+', 
+                    geast.name('value'), 
+                    geast.constant(1))
+            )
+        ])
     );
     
     compiler.process(node);

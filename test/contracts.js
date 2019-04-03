@@ -121,7 +121,9 @@ exports['process contract with variable declaration and method returning variabl
         geast.sequence([
             geast.variable('counter', 'uint'),
             geast.method('getCounter', 'uint', 'public', [], 
-                geast.return(geast.name('counter'))
+                geast.sequence([
+                    geast.return(geast.name('counter'))
+                ])
             )
         ]));
         
@@ -170,10 +172,12 @@ exports['process contract with variable declaration and method modifying variabl
         geast.sequence([
             geast.variable('counter', 'uint'),
             geast.method('increment', 'void', 'public', [], 
-                geast.assign(
-                    geast.name('counter'), 
-                    geast.binary('+', geast.name('counter'), geast.constant(1))
-                )
+                geast.sequence([
+                    geast.assign(
+                        geast.name('counter'), 
+                        geast.binary('+', geast.name('counter'), geast.constant(1))
+                    )
+                ])
             )
         ]));
         
@@ -222,10 +226,12 @@ exports['process contract with variable declaration and method modifying variabl
         geast.sequence([
             geast.variable('counter', 'uint'),
             geast.method('add', 'void', 'public', [ geast.argument('value', 'uint') ], 
-                geast.assign(
-                    geast.name('counter'), 
-                    geast.binary('+', geast.name('counter'), geast.name('value'))
-                )
+                geast.sequence([
+                    geast.assign(
+                        geast.name('counter'), 
+                        geast.binary('+', geast.name('counter'), geast.name('value'))
+                    )
+                ])
             )
         ]));
         

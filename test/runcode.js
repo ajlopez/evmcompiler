@@ -5,6 +5,8 @@ const contexts = require('../lib/contexts');
 const geast = require('geast');
 const VM = require('ethereumjs-vm');
 
+geast.node('method', [ 'name', 'type', 'visibility', 'arguments', 'body' ]);
+
 exports['run conditional command'] = function (test) {
     const compiler = compilers.compiler();
     const node = geast.conditional(
@@ -88,17 +90,23 @@ exports['run loop command using local variable'] = function (test) {
     compiler.context(contexts.context('method'));
     compiler.enterfn(0);
     
-    const node = geast.sequence([
-        geast.variable('k', 'uint'),
-        geast.loop(
-            geast.binary('<', geast.name('k'), geast.constant(42)),
-            geast.assign(
-                geast.name('k'),
-                geast.binary('+', geast.name('k'), geast.constant(1))
-            )
-        ),
-        geast.return(geast.name('k'))
-    ]);
+    const node = geast.method(
+        'foo',
+        'void',
+        'public',
+        [],
+        geast.sequence([
+            geast.variable('k', 'uint'),
+            geast.loop(
+                geast.binary('<', geast.name('k'), geast.constant(42)),
+                geast.assign(
+                    geast.name('k'),
+                    geast.binary('+', geast.name('k'), geast.constant(1))
+                )
+            ),
+            geast.return(geast.name('k'))
+        ])
+    );
     
     compiler.process(node);
     
@@ -124,14 +132,20 @@ exports['run loop command with break'] = function (test) {
     compiler.context(contexts.context('method'));
     compiler.enterfn(0);
     
-    const node = geast.sequence([
-        geast.variable('k', 'uint'),
-        geast.loop(
-            geast.binary('<', geast.name('k'), geast.constant(42)),
-            geast.break()
-        ),
-        geast.return(geast.name('k'))
-    ]);
+    const node = geast.method(
+        'foo',
+        'void',
+        'public',
+        [],
+        geast.sequence([
+            geast.variable('k', 'uint'),
+            geast.loop(
+                geast.binary('<', geast.name('k'), geast.constant(42)),
+                geast.break()
+            ),
+            geast.return(geast.name('k'))
+        ])
+    );
     
     compiler.process(node);
     
@@ -157,20 +171,26 @@ exports['run loop command with continue'] = function (test) {
     compiler.context(contexts.context('method'));
     compiler.enterfn(0);
     
-    const node = geast.sequence([
-        geast.variable('k', 'uint'),
-        geast.loop(
-            geast.binary('<', geast.name('k'), geast.constant(42)),
-            geast.sequence([
-                geast.assign(
-                    geast.name('k'),
-                    geast.constant(100)
-                ),
-                geast.continue()
-            ])
-        ),
-        geast.return(geast.name('k'))
-    ]);
+    const node = geast.method(
+        'foo',
+        'void',
+        'public',
+        [],
+        geast.sequence([
+            geast.variable('k', 'uint'),
+            geast.loop(
+                geast.binary('<', geast.name('k'), geast.constant(42)),
+                geast.sequence([
+                    geast.assign(
+                        geast.name('k'),
+                        geast.constant(100)
+                    ),
+                    geast.continue()
+                ])
+            ),
+            geast.return(geast.name('k'))
+        ])
+    );
     
     compiler.process(node);
     
@@ -196,23 +216,29 @@ exports['run for command'] = function (test) {
     compiler.context(contexts.context('method'));
     compiler.enterfn(0);
     
-    const node = geast.sequence([
-        geast.variable('k', 'uint'),
-        geast.variable('total', 'uint'),
-        geast.for(
-            geast.assign(geast.name('k'), geast.constant(1)),
-            geast.binary('<', geast.name('k'), geast.constant(4)),
-            geast.assign(
-                geast.name('k'),
-                geast.binary('+', geast.name('k'), geast.constant(1))
+    const node = geast.method(
+        'foo',
+        'void',
+        'public',
+        [],
+        geast.sequence([
+            geast.variable('k', 'uint'),
+            geast.variable('total', 'uint'),
+            geast.for(
+                geast.assign(geast.name('k'), geast.constant(1)),
+                geast.binary('<', geast.name('k'), geast.constant(4)),
+                geast.assign(
+                    geast.name('k'),
+                    geast.binary('+', geast.name('k'), geast.constant(1))
+                ),
+                geast.assign(
+                    geast.name('total'),
+                    geast.binary('+', geast.name('total'), geast.name('k'))
+                )
             ),
-            geast.assign(
-                geast.name('total'),
-                geast.binary('+', geast.name('total'), geast.name('k'))
-            )
-        ),
-        geast.return(geast.name('total'))
-    ]);
+            geast.return(geast.name('total'))
+        ])
+    );
     
     compiler.process(node);
     
@@ -238,26 +264,32 @@ exports['run for command with break'] = function (test) {
     compiler.context(contexts.context('method'));
     compiler.enterfn(0);
     
-    const node = geast.sequence([
-        geast.variable('k', 'uint'),
-        geast.variable('total', 'uint'),
-        geast.for(
-            geast.assign(geast.name('k'), geast.constant(1)),
-            geast.binary('<', geast.name('k'), geast.constant(4)),
-            geast.assign(
-                geast.name('k'),
-                geast.binary('+', geast.name('k'), geast.constant(1))
-            ),
-            geast.sequence([
+    const node = geast.method(
+        'foo',
+        'void',
+        'public',
+        [],
+        geast.sequence([
+            geast.variable('k', 'uint'),
+            geast.variable('total', 'uint'),
+            geast.for(
+                geast.assign(geast.name('k'), geast.constant(1)),
+                geast.binary('<', geast.name('k'), geast.constant(4)),
                 geast.assign(
-                    geast.name('total'),
-                    geast.binary('+', geast.name('total'), geast.name('k'))
+                    geast.name('k'),
+                    geast.binary('+', geast.name('k'), geast.constant(1))
                 ),
-                geast.break()
-            ])
-        ),
-        geast.return(geast.name('total'))
-    ]);
+                geast.sequence([
+                    geast.assign(
+                        geast.name('total'),
+                        geast.binary('+', geast.name('total'), geast.name('k'))
+                    ),
+                    geast.break()
+                ])
+            ),
+            geast.return(geast.name('total'))
+        ])
+    );
     
     compiler.process(node);
     
@@ -283,23 +315,29 @@ exports['run for command without pre'] = function (test) {
     compiler.context(contexts.context('method'));
     compiler.enterfn(0);
     
-    const node = geast.sequence([
-        geast.variable('k', 'uint'),
-        geast.variable('total', 'uint'),
-        geast.for(
-            null,
-            geast.binary('<', geast.name('k'), geast.constant(4)),
-            geast.assign(
-                geast.name('k'),
-                geast.binary('+', geast.name('k'), geast.constant(1))
+    const node = geast.method(
+        'foo',
+        'void',
+        'public',
+        [],
+        geast.sequence([
+            geast.variable('k', 'uint'),
+            geast.variable('total', 'uint'),
+            geast.for(
+                null,
+                geast.binary('<', geast.name('k'), geast.constant(4)),
+                geast.assign(
+                    geast.name('k'),
+                    geast.binary('+', geast.name('k'), geast.constant(1))
+                ),
+                geast.assign(
+                    geast.name('total'),
+                    geast.binary('+', geast.name('total'), geast.name('k'))
+                )
             ),
-            geast.assign(
-                geast.name('total'),
-                geast.binary('+', geast.name('total'), geast.name('k'))
-            )
-        ),
-        geast.return(geast.name('total'))
-    ]);
+            geast.return(geast.name('total'))
+        ])
+    );
     
     compiler.process(node);
     
@@ -325,26 +363,32 @@ exports['run for command without pre and post'] = function (test) {
     compiler.context(contexts.context('method'));
     compiler.enterfn(0);
     
-    const node = geast.sequence([
-        geast.variable('k', 'uint'),
-        geast.variable('total', 'uint'),
-        geast.for(
-            null,
-            geast.binary('<', geast.name('k'), geast.constant(4)),
-            null,
-            geast.sequence([
-                geast.assign(
-                    geast.name('total'),
-                    geast.binary('+', geast.name('total'), geast.name('k'))
-                ),
-                geast.assign(
-                    geast.name('k'),
-                    geast.binary('+', geast.name('k'), geast.constant(1))
-                )
-            ])
-        ),
-        geast.return(geast.name('total'))
-    ]);
+    const node = geast.method(
+        'foo',
+        'void',
+        'public',
+        [],
+        geast.sequence([
+            geast.variable('k', 'uint'),
+            geast.variable('total', 'uint'),
+            geast.for(
+                null,
+                geast.binary('<', geast.name('k'), geast.constant(4)),
+                null,
+                geast.sequence([
+                    geast.assign(
+                        geast.name('total'),
+                        geast.binary('+', geast.name('total'), geast.name('k'))
+                    ),
+                    geast.assign(
+                        geast.name('k'),
+                        geast.binary('+', geast.name('k'), geast.constant(1))
+                    )
+                ])
+            ),
+            geast.return(geast.name('total'))
+        ])
+    );
     
     compiler.process(node);
     
@@ -370,31 +414,37 @@ exports['run for command with continue'] = function (test) {
     compiler.context(contexts.context('method'));
     compiler.enterfn(0);
     
-    const node = geast.sequence([
-        geast.variable('k', 'uint'),
-        geast.variable('total', 'uint'),
-        geast.for(
-            null,
-            geast.binary('<', geast.name('k'), geast.constant(4)),
-            null,
-            geast.sequence([
-                geast.assign(
-                    geast.name('total'),
-                    geast.binary('+', geast.name('total'), geast.name('k'))
-                ),
-                geast.assign(
-                    geast.name('k'),
-                    geast.binary('+', geast.name('k'), geast.constant(1))
-                ),
-                geast.continue(),
-                geast.assign(
-                    geast.name('total'),
-                    geast.binary('+', geast.name('total'), geast.name('k'))
-                )
-            ])
-        ),
-        geast.return(geast.name('total'))
-    ]);
+    const node = geast.method(
+        'foo',
+        'void',
+        'public',
+        [],
+        geast.sequence([
+            geast.variable('k', 'uint'),
+            geast.variable('total', 'uint'),
+            geast.for(
+                null,
+                geast.binary('<', geast.name('k'), geast.constant(4)),
+                null,
+                geast.sequence([
+                    geast.assign(
+                        geast.name('total'),
+                        geast.binary('+', geast.name('total'), geast.name('k'))
+                    ),
+                    geast.assign(
+                        geast.name('k'),
+                        geast.binary('+', geast.name('k'), geast.constant(1))
+                    ),
+                    geast.continue(),
+                    geast.assign(
+                        geast.name('total'),
+                        geast.binary('+', geast.name('total'), geast.name('k'))
+                    )
+                ])
+            ),
+            geast.return(geast.name('total'))
+        ])
+    );
     
     compiler.process(node);
     
