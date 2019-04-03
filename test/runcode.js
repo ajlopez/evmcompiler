@@ -190,3 +190,227 @@ exports['run loop command with continue'] = function (test) {
     });
 };
 
+exports['run for command'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    compiler.context(contexts.context('method'));
+    compiler.enterfn(0);
+    
+    const node = geast.sequence([
+        geast.variable('k', 'uint'),
+        geast.variable('total', 'uint'),
+        geast.for(
+            geast.assign(geast.name('k'), geast.constant(1)),
+            geast.binary('<', geast.name('k'), geast.constant(4)),
+            geast.assign(
+                geast.name('k'),
+                geast.binary('+', geast.name('k'), geast.constant(1))
+            ),
+            geast.assign(
+                geast.name('total'),
+                geast.binary('+', geast.name('total'), geast.name('k'))
+            )
+        ),
+        geast.return(geast.name('total'))
+    ]);
+    
+    compiler.process(node);
+    
+    const code = compiler.bytecodes();
+    const vm = new VM();
+    const bytes = Buffer.from(code, 'hex');
+
+    test.async();
+    
+    vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        test.ok(data.return);
+        test.equal(data.return.length, 32);
+        test.equal(parseInt(data.return.toString('hex'), 16), 6);
+        test.done();
+    });
+};
+
+exports['run for command with break'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    compiler.context(contexts.context('method'));
+    compiler.enterfn(0);
+    
+    const node = geast.sequence([
+        geast.variable('k', 'uint'),
+        geast.variable('total', 'uint'),
+        geast.for(
+            geast.assign(geast.name('k'), geast.constant(1)),
+            geast.binary('<', geast.name('k'), geast.constant(4)),
+            geast.assign(
+                geast.name('k'),
+                geast.binary('+', geast.name('k'), geast.constant(1))
+            ),
+            geast.sequence([
+                geast.assign(
+                    geast.name('total'),
+                    geast.binary('+', geast.name('total'), geast.name('k'))
+                ),
+                geast.break()
+            ])
+        ),
+        geast.return(geast.name('total'))
+    ]);
+    
+    compiler.process(node);
+    
+    const code = compiler.bytecodes();
+    const vm = new VM();
+    const bytes = Buffer.from(code, 'hex');
+
+    test.async();
+    
+    vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        test.ok(data.return);
+        test.equal(data.return.length, 32);
+        test.equal(parseInt(data.return.toString('hex'), 16), 1);
+        test.done();
+    });
+};
+
+exports['run for command without pre'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    compiler.context(contexts.context('method'));
+    compiler.enterfn(0);
+    
+    const node = geast.sequence([
+        geast.variable('k', 'uint'),
+        geast.variable('total', 'uint'),
+        geast.for(
+            null,
+            geast.binary('<', geast.name('k'), geast.constant(4)),
+            geast.assign(
+                geast.name('k'),
+                geast.binary('+', geast.name('k'), geast.constant(1))
+            ),
+            geast.assign(
+                geast.name('total'),
+                geast.binary('+', geast.name('total'), geast.name('k'))
+            )
+        ),
+        geast.return(geast.name('total'))
+    ]);
+    
+    compiler.process(node);
+    
+    const code = compiler.bytecodes();
+    const vm = new VM();
+    const bytes = Buffer.from(code, 'hex');
+
+    test.async();
+    
+    vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        test.ok(data.return);
+        test.equal(data.return.length, 32);
+        test.equal(parseInt(data.return.toString('hex'), 16), 6);
+        test.done();
+    });
+};
+
+exports['run for command without pre and post'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    compiler.context(contexts.context('method'));
+    compiler.enterfn(0);
+    
+    const node = geast.sequence([
+        geast.variable('k', 'uint'),
+        geast.variable('total', 'uint'),
+        geast.for(
+            null,
+            geast.binary('<', geast.name('k'), geast.constant(4)),
+            null,
+            geast.sequence([
+                geast.assign(
+                    geast.name('total'),
+                    geast.binary('+', geast.name('total'), geast.name('k'))
+                ),
+                geast.assign(
+                    geast.name('k'),
+                    geast.binary('+', geast.name('k'), geast.constant(1))
+                )
+            ])
+        ),
+        geast.return(geast.name('total'))
+    ]);
+    
+    compiler.process(node);
+    
+    const code = compiler.bytecodes();
+    const vm = new VM();
+    const bytes = Buffer.from(code, 'hex');
+
+    test.async();
+    
+    vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        test.ok(data.return);
+        test.equal(data.return.length, 32);
+        test.equal(parseInt(data.return.toString('hex'), 16), 6);
+        test.done();
+    });
+};
+
+exports['run for command with continue'] = function (test) {
+    const compiler = compilers.compiler();
+    
+    compiler.context(contexts.context('method'));
+    compiler.enterfn(0);
+    
+    const node = geast.sequence([
+        geast.variable('k', 'uint'),
+        geast.variable('total', 'uint'),
+        geast.for(
+            null,
+            geast.binary('<', geast.name('k'), geast.constant(4)),
+            null,
+            geast.sequence([
+                geast.assign(
+                    geast.name('total'),
+                    geast.binary('+', geast.name('total'), geast.name('k'))
+                ),
+                geast.assign(
+                    geast.name('k'),
+                    geast.binary('+', geast.name('k'), geast.constant(1))
+                ),
+                geast.continue(),
+                geast.assign(
+                    geast.name('total'),
+                    geast.binary('+', geast.name('total'), geast.name('k'))
+                )
+            ])
+        ),
+        geast.return(geast.name('total'))
+    ]);
+    
+    compiler.process(node);
+    
+    const code = compiler.bytecodes();
+    const vm = new VM();
+    const bytes = Buffer.from(code, 'hex');
+
+    test.async();
+    
+    vm.runCode({ code: bytes, gasLimit: 30000000 }, function (err, data) {
+        test.ok(!err);
+        test.ok(data);
+        test.ok(data.return);
+        test.equal(data.return.length, 32);
+        test.equal(parseInt(data.return.toString('hex'), 16), 6);
+        test.done();
+    });
+};
+
