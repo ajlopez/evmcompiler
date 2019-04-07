@@ -38,6 +38,15 @@ exports['compile divide numbers'] = function (test) {
     test.equal(compiler.bytecodes(), '6001602a04');
 };
 
+exports['compile mod numbers'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('%', geast.constant(42), geast.constant(1));
+    
+    compiler.process(constant);
+    
+    test.equal(compiler.bytecodes(), '6001602a06');
+};
+
 exports['compile equal numbers'] = function (test) {
     const compiler = compilers.compiler();
     const constant = geast.binary('==', geast.constant(42), geast.constant(1));
