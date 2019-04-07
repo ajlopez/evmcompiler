@@ -73,3 +73,36 @@ exports['compile and run mod numbers'] = function (test) {
     runCode(test, compiler.bytecodes(), 3);
 };
 
+exports['compile and run and numbers'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('&', geast.constant(7), geast.constant(4));
+    
+    compiler.process(constant);
+    
+    test.async();
+
+    runCode(test, compiler.bytecodes(), 4);
+};
+
+exports['compile and run or numbers'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('|', geast.constant(7), geast.constant(4));
+    
+    compiler.process(constant);
+    
+    test.async();
+
+    runCode(test, compiler.bytecodes(), 7);
+};
+
+exports['compile and run xor numbers'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('^', geast.constant(7), geast.constant(4));
+    
+    compiler.process(constant);
+    
+    test.async();
+
+    runCode(test, compiler.bytecodes(), 3);
+};
+

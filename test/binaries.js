@@ -47,6 +47,24 @@ exports['compile mod numbers'] = function (test) {
     test.equal(compiler.bytecodes(), '6001602a06');
 };
 
+exports['compile add mod numbers'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('+%', geast.constant(42), geast.constant(1));
+    
+    compiler.process(constant);
+    
+    test.equal(compiler.bytecodes(), '6001602a08');
+};
+
+exports['compile multiply mod numbers'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('*%', geast.constant(42), geast.constant(1));
+    
+    compiler.process(constant);
+    
+    test.equal(compiler.bytecodes(), '6001602a09');
+};
+
 exports['compile equal numbers'] = function (test) {
     const compiler = compilers.compiler();
     const constant = geast.binary('==', geast.constant(42), geast.constant(1));
