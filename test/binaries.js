@@ -64,3 +64,31 @@ exports['compile greater numbers'] = function (test) {
     
     test.equal(compiler.bytecodes(), '6001602a11');
 };
+
+exports['compile and numbers'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('&', geast.constant(42), geast.constant(1));
+    
+    compiler.process(constant);
+    
+    test.equal(compiler.bytecodes(), '6001602a16');
+};
+
+exports['compile or numbers'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('|', geast.constant(42), geast.constant(1));
+    
+    compiler.process(constant);
+    
+    test.equal(compiler.bytecodes(), '6001602a17');
+};
+
+exports['compile xor numbers'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('^', geast.constant(42), geast.constant(1));
+    
+    compiler.process(constant);
+    
+    test.equal(compiler.bytecodes(), '6001602a18');
+};
+

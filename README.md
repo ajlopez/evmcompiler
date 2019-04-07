@@ -16,9 +16,8 @@ TBD
 
 ## To Do
 
-- Management of local variables
+- Management of local variables (partial)
 - Call private, internal, external methods
-- Compile for commands
 - Pass arguments in stack when needed
 - Returns result in stack when needed
 - Contract inheritance
