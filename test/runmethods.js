@@ -5,9 +5,6 @@ const contexts = require('../lib/contexts');
 const geast = require('geast');
 const VM = require('ethereumjs-vm');
 
-
-geast.node('method', [ 'name', 'type', 'visibility', 'arguments', 'body' ]);
-
 exports['run empty method'] = function (test) {
     const compiler = compilers.compiler();
     const node = geast.method('foo', 'void', 'public', [], geast.sequence([]));

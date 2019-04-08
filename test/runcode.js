@@ -5,8 +5,6 @@ const contexts = require('../lib/contexts');
 const geast = require('geast');
 const VM = require('ethereumjs-vm');
 
-geast.node('method', [ 'name', 'type', 'visibility', 'arguments', 'body' ]);
-
 exports['run conditional command'] = function (test) {
     const compiler = compilers.compiler();
     compiler.context(contexts.context('method'));

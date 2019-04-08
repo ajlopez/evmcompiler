@@ -2,7 +2,6 @@
 const evmcompiler = require('..');
 const geast = require('geast');
 
-geast.node('method', [ 'name', 'type', 'visibility', 'arguments', 'body' ]);
 geast.node('contract', [ 'name', 'body' ]);
 
 exports['compile simple contract'] = function (test) {
