@@ -45,3 +45,12 @@ exports['process return with expression'] = function (test) {
     test.equal(compiler.bytecodes(), "602a60005260206000f3");
 };
 
+exports['process eval with expression'] = function (test) {
+    const compiler = compilers.compiler();
+    const node = geast.eval(geast.constant(42));
+    
+    compiler.process(node);
+    
+    test.equal(compiler.bytecodes(), "602a50");
+};
+
