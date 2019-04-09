@@ -119,3 +119,12 @@ exports['compile xor numbers'] = function (test) {
     test.equal(compiler.bytecodes(), '6001602a18');
 };
 
+exports['compile logic and'] = function (test) {
+    const compiler = compilers.compiler();
+    const constant = geast.binary('&&', geast.constant(42), geast.constant(1));
+    
+    compiler.process(constant);
+    
+    test.equal(compiler.bytecodes(), '602a8061000b57610012565b6001610016575b5060005b');
+};
+
