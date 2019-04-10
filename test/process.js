@@ -54,3 +54,30 @@ exports['process eval with expression'] = function (test) {
     test.equal(compiler.bytecodes(), "602a50");
 };
 
+exports['process integer constant'] = function (test) {
+    const compiler = compilers.compiler();
+    const node = geast.constant(42);
+    
+    compiler.process(node);
+    
+    test.equal(compiler.bytecodes(), "602a");
+};
+
+exports['process boolean false constant'] = function (test) {
+    const compiler = compilers.compiler();
+    const node = geast.constant(false);
+    
+    compiler.process(node);
+    
+    test.equal(compiler.bytecodes(), "6000");
+};
+
+exports['process boolean true constant'] = function (test) {
+    const compiler = compilers.compiler();
+    const node = geast.constant(true);
+    
+    compiler.process(node);
+    
+    test.equal(compiler.bytecodes(), "6001");
+};
+
