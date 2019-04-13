@@ -134,6 +134,6 @@ exports['compile logic or'] = function (test) {
     
     compiler.process(constant);
     
-    test.equal(compiler.bytecodes(), '602a80610010576001610010575060005b');
+    test.equal(compiler.bytecodes(), '602a806100125750600180610012575060005b');
 };
 

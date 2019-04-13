@@ -119,3 +119,10 @@ exports['compile and run logical and'] = function (test) {
     compileRunCode(test, geast.binary('&&', geast.constant(false), geast.constant(false)), 0);
 };
 
+exports['compile and run logical or'] = function (test) {
+    compileRunCode(test, geast.binary('||', geast.constant(true), geast.constant(true)), 1);
+    compileRunCode(test, geast.binary('||', geast.constant(true), geast.constant(false)), 1);
+    compileRunCode(test, geast.binary('||', geast.constant(false), geast.constant(true)), 1);
+    compileRunCode(test, geast.binary('||', geast.constant(false), geast.constant(false)), 0);
+};
+
