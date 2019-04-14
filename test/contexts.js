@@ -6,19 +6,22 @@ exports['create context as object'] = function (test) {
     
     test.ok(context);
     test.equal(typeof context, 'object');
-    test.equal(context.scope(), 'program');
+    test.equal(context.scope(), null);
 };
 
-exports['create context with scope'] = function (test) {
-    const context = contexts.context('contract');
+exports['set context'] = function (test) {
+    const context = contexts.context();
+    
+    context.scope('program');
     
     test.ok(context);
     test.equal(typeof context, 'object');
-    test.equal(context.scope(), 'contract');
+    test.equal(context.scope(), 'program');
 };
 
 exports['add variable to contract context'] = function (test) {
-    const context = contexts.context('contract');
+    const context = contexts.context();
+    context.scope('contract');
 
     test.ok(context);
     test.equal(context.nvars(), 0);
@@ -50,7 +53,9 @@ exports['set and get value'] = function (test) {
 
 exports['set and get value in parent context'] = function (test) {
     const parent = contexts.context();
-    const context = contexts.context('contract', parent);
+    parent.scope('program');
+    const context = contexts.context(parent);
+    context.scope('contract');
     
     parent.set('answer', 42);
     
@@ -60,8 +65,10 @@ exports['set and get value in parent context'] = function (test) {
 };
 
 exports['add variables to contract and method'] = function (test) {
-    const parent = contexts.context('contract');
-    const context = contexts.context('method', parent);
+    const parent = contexts.context();
+    parent.scope('contract');
+    const context = contexts.context(parent);
+    context.scope('method');
     
     parent.set('counter', { name: 'counter', type: 'uint' });
     context.set('k', { name: 'k', type: 'uint' });
