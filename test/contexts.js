@@ -39,7 +39,7 @@ exports['set visibility'] = function (test) {
     test.equal(context.visibility(), 'public');
 };
 
-exports['scope is inherited'] = function (test) {
+exports['visibility is inherited'] = function (test) {
     const parent = contexts.context();
     parent.visibility('public');
     const context = contexts.context(parent);
@@ -47,6 +47,26 @@ exports['scope is inherited'] = function (test) {
     test.ok(context);
     test.equal(typeof context, 'object');
     test.equal(context.visibility(), 'public');
+};
+
+exports['set fn'] = function (test) {
+    const context = contexts.context();
+    
+    context.fn({ arity: 10 });
+    
+    test.ok(context);
+    test.equal(typeof context, 'object');
+    test.deepEqual(context.fn(), { arity: 10 });
+};
+
+exports['fn is inherited'] = function (test) {
+    const parent = contexts.context();
+    parent.fn({ arity: 10 });
+    const context = contexts.context(parent);
+    
+    test.ok(context);
+    test.equal(typeof context, 'object');
+    test.deepEqual(context.fn(), { arity: 10 });
 };
 
 exports['add variable to contract context'] = function (test) {
