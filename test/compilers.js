@@ -1,5 +1,6 @@
 
 const compilers = require('../lib/compilers');
+const contexts = require('../lib/contexts');
 
 exports['compile one byte value'] = function (test) {
     const compiler = compilers.compiler();
@@ -91,8 +92,8 @@ exports['compile store storage with two bytes offset'] = function (test) {
 
 exports['compile load local'] = function (test) {
     const compiler = compilers.compiler();
-    
-    compiler.enterfn(0);
+    compiler.context(contexts.context());
+    compiler.enterfn('public', 0);
     compiler.value(1);
     compiler.value(2);
     compiler.value(3);
@@ -103,8 +104,9 @@ exports['compile load local'] = function (test) {
 
 exports['compile store local'] = function (test) {
     const compiler = compilers.compiler();
+    compiler.context(contexts.context());
     
-    compiler.enterfn(0);
+    compiler.enterfn('public', 0);
     compiler.value(1);
     compiler.value(2);
     compiler.value(3);

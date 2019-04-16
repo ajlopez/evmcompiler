@@ -7,6 +7,7 @@ const VM = require('ethereumjs-vm');
 
 exports['run empty method'] = function (test) {
     const compiler = compilers.compiler();
+    compiler.context(contexts.context());
     const node = geast.method('foo', 'void', 'public', [], geast.sequence([]));
     
     compiler.process(node);
@@ -31,6 +32,7 @@ exports['run empty method'] = function (test) {
 
 exports['run method that returns a constant'] = function (test) {
     const compiler = compilers.compiler();
+    compiler.context(contexts.context());
     const node = geast.method('foo', 'uint', 'public', [], 
         geast.sequence([ geast.return(geast.constant(42)) ]));
     
@@ -57,6 +59,7 @@ exports['run method that returns a constant'] = function (test) {
 
 exports['run method that receives an argument and returns value'] = function (test) {
     const compiler = compilers.compiler();
+    compiler.context(contexts.context());
     const node = geast.method('foo', 'uint', 'public',
         [ geast.argument('value', 'uint') ], 
         geast.sequence([
@@ -92,6 +95,7 @@ exports['run method that receives an argument and returns value'] = function (te
 
 exports['run method that declares local variables with value and return its value'] = function (test) {
     const compiler = compilers.compiler();
+    compiler.context(contexts.context());
     const node = geast.method('foo', 'uint', 'public',
         [], 
         geast.sequence([
@@ -125,6 +129,7 @@ exports['run method that declares local variables with value and return its valu
 
 exports['run method that declares local variable with value, modify it and return its value'] = function (test) {
     const compiler = compilers.compiler();
+    compiler.context(contexts.context());
     const node = geast.method('foo', 'uint', 'public',
         [], 
         geast.sequence([
