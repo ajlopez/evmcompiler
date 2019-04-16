@@ -9,10 +9,20 @@ exports['create context as object'] = function (test) {
     test.equal(context.scope(), null);
 };
 
-exports['set context'] = function (test) {
+exports['set scope'] = function (test) {
     const context = contexts.context();
     
     context.scope('program');
+    
+    test.ok(context);
+    test.equal(typeof context, 'object');
+    test.equal(context.scope(), 'program');
+};
+
+exports['scope is inherited'] = function (test) {
+    const parent = contexts.context();
+    parent.scope('program');
+    const context = contexts.context(parent);
     
     test.ok(context);
     test.equal(typeof context, 'object');
