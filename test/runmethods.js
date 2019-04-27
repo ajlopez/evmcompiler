@@ -59,7 +59,8 @@ exports['run method that returns a constant'] = function (test) {
 
 exports['run method that receives an argument and returns value'] = function (test) {
     const compiler = compilers.compiler();
-    compiler.context(contexts.context());
+    const context = contexts.context();
+    compiler.context(context);
     const node = geast.method('foo', 'uint', 'public',
         [ geast.argument('value', 'uint') ], 
         geast.sequence([

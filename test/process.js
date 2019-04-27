@@ -11,7 +11,10 @@ geast.node('value', []);
 
 function process(test, op, expected) {
     const compiler = compilers.compiler();
-    compiler.context(contexts.context('method'));
+    const context = contexts.context();
+    context.scope('method');
+    context.fn({ arity: 0 });
+    compiler.context(context);
     const node = geast[op]();
     
     compiler.process(node);
@@ -37,7 +40,10 @@ exports['process return without expression'] = function (test) {
 
 exports['process return with expression'] = function (test) {
     const compiler = compilers.compiler();
-    compiler.context(contexts.context('method'));
+    const context = contexts.context();
+    context.scope('method');
+    context.fn({ arity: 0 });
+    compiler.context(context);
     const node = geast.return(geast.constant(42));
     
     compiler.process(node);

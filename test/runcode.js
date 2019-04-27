@@ -7,7 +7,10 @@ const VM = require('ethereumjs-vm');
 
 exports['run conditional command'] = function (test) {
     const compiler = compilers.compiler();
-    compiler.context(contexts.context('method'));
+    const context = contexts.context();
+    context.scope('method');
+    context.fn({ arity: 0 });
+    compiler.context(context);
     const node = geast.conditional(
         geast.constant(1),
         geast.return(geast.constant(42)),
@@ -37,7 +40,10 @@ exports['run conditional command'] = function (test) {
 
 exports['run else command in conditional command'] = function (test) {
     const compiler = compilers.compiler();
-    compiler.context(contexts.context('method'));
+    const context = contexts.context();
+    context.scope('method');
+    context.fn({ arity: 0 });
+    compiler.context(context);
     const node = geast.conditional(
         geast.constant(0),
         geast.return(geast.constant(42)),
@@ -67,7 +73,10 @@ exports['run else command in conditional command'] = function (test) {
 
 exports['run conditional command without else command'] = function (test) {
     const compiler = compilers.compiler();
-    compiler.context(contexts.context('method'));
+    const context = contexts.context();
+    context.scope('method');
+    context.fn({ arity: 0 });
+    compiler.context(context);
     const node = geast.conditional(
         geast.constant(1),
         geast.return(geast.constant(42))

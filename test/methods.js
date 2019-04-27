@@ -32,5 +32,5 @@ exports['process private method that receives an argument and returns value'] = 
     
     const code = compiler.bytecodes();
     
-    test.equal(code, "5b80600052506020600f3");
+    test.equal(code, "5b600181016000525060206000f3");
 }
