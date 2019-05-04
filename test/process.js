@@ -87,3 +87,11 @@ exports['process boolean true constant'] = function (test) {
     test.equal(compiler.bytecodes(), "6001");
 };
 
+exports['process call'] = function (test) {
+    const compiler = compilers.compiler();
+    const node = geast.call(geast.name('foo'), [ geast.constant(42) ]);
+    
+    compiler.process(node);
+    
+    test.equal(compiler.bytecodes(), "610009602a61____565b");
+};
