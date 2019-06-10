@@ -109,6 +109,19 @@ exports['process storage variable'] = function (test) {
     test.equal(compiler.bytecodes(), "600a54");
 };
 
+exports['process indexed storage variable'] = function (test) {
+    const compiler = compilers.compiler();
+    const context = contexts.context();
+    context.set('foo', { name: 'foo', type: 'uint', offset: 10, scope: 'contract' });
+    compiler.context(context);
+    
+    const node = geast.indexed(geast.name('foo'), geast.constant(2));
+    
+    compiler.process(node);
+    
+    test.equal(compiler.bytecodes(), "600a60020154");
+};
+
 exports['process local variable'] = function (test) {
     const compiler = compilers.compiler();
     const context = contexts.context();
