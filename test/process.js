@@ -95,3 +95,16 @@ exports['process call'] = function (test) {
     
     test.equal(compiler.bytecodes(), "610009602a61____565b");
 };
+
+exports['process storage variable'] = function (test) {
+    const compiler = compilers.compiler();
+    const context = contexts.context();
+    context.set('foo', { name: 'foo', type: 'uint', offset: 10, scope: 'contract' });
+    compiler.context(context);
+    
+    const node = geast.name('foo');
+    
+    compiler.process(node);
+    
+    test.equal(compiler.bytecodes(), "600a54");
+};
