@@ -108,3 +108,17 @@ exports['process storage variable'] = function (test) {
     
     test.equal(compiler.bytecodes(), "600a54");
 };
+
+exports['process local variable'] = function (test) {
+    const compiler = compilers.compiler();
+    const context = contexts.context();
+    context.set('foo', { name: 'foo', type: 'uint', offset: 1, scope: 'method' });
+    context.fn({ arity: 0, ssize: -3 });
+    compiler.context(context);
+    
+    const node = geast.name('foo');
+    
+    compiler.process(node);
+    
+    test.equal(compiler.bytecodes(), "81");
+};
