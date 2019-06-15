@@ -96,6 +96,24 @@ exports['process divide signed integer constants'] = function (test) {
     test.equal(compiler.bytecodes(), "6002602a05");
 };
 
+exports['process mod unsigned integer constants'] = function (test) {
+    const compiler = compilers.compiler();
+    const node = geast.binary('%', geast.constant(42, 'uint'), geast.constant(2, 'uint'));
+    
+    compiler.process(node);
+    
+    test.equal(compiler.bytecodes(), "6002602a06");
+};
+
+exports['process mod signed integer constants'] = function (test) {
+    const compiler = compilers.compiler();
+    const node = geast.binary('%', geast.constant(42, 'int'), geast.constant(2, 'int'));
+    
+    compiler.process(node);
+    
+    test.equal(compiler.bytecodes(), "6002602a07");
+};
+
 exports['process boolean false constant'] = function (test) {
     const compiler = compilers.compiler();
     const node = geast.constant(false);
