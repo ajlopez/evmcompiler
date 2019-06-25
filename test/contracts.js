@@ -84,6 +84,37 @@ exports['process contract with variable declaration'] = function (test) {
     test.strictEqual(counter.offset, 0);
 }
 
+exports['process contract with array variable declaration '] = function (test) {
+    const compiler = compilers.compiler();
+    
+    const node = geast.contract('Counter',
+        geast.sequence([
+            geast.variable('data', geast.array('uint', geast.constant(10, 'uint'))),
+            geast.variable('counter', 'uint')
+        ]));
+        
+    compiler.process(node);
+    
+    const context = compiler.context();
+    
+    test.ok(context);
+    
+    const data = context.get('data');
+    
+    test.ok(data);
+    test.equal(data.scope, 'contract');
+    test.equal(data.type, 'uint256[]');
+    test.strictEqual(data.offset, 0);
+    test.strictEqual(data.size, 10);
+    
+    const counter = context.get('counter');
+    
+    test.ok(counter);
+    test.equal(counter.scope, 'contract');
+    test.equal(counter.type, 'uint256');
+    test.strictEqual(counter.offset, 10);
+}
+
 exports['process contract with two variable declaration'] = function (test) {
     const compiler = compilers.compiler();
     

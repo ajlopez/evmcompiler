@@ -67,6 +67,24 @@ exports['add variable to contract context'] = function (test) {
     test.equal(context.nvars(), 2);
 };
 
+exports['add array variable to contract context'] = function (test) {
+    const context = contexts.context();
+    context.scope('contract');
+
+    test.ok(context);
+    test.equal(context.nvars(), 0);
+    
+    context.set('answer', { name: 'answer', type: 'uint[]', length: 42 });
+    
+    test.deepEqual(context.get('answer'), { name: 'answer', type: 'uint[]', scope: 'contract', offset: 0, length: 42 });
+    test.equal(context.nvars(), 1);
+    
+    context.set('counter', { name: 'counter', type: 'uint' });
+    
+    test.deepEqual(context.get('counter'), { name: 'counter', type: 'uint', scope: 'contract', offset: 42 });
+    test.equal(context.nvars(), 2);
+};
+
 exports['get unknown value'] = function (test) {
     const context = contexts.context();
     
