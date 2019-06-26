@@ -13,6 +13,7 @@ TBD
 - 0.0.3 Process local variables, loop and conditional commands
 - 0.0.4 Process break and continue commands
 - 0.0.5 For command, fnhash in API, stop in void method, local variables management first implementation
+- 0.0.6 Array variable declaration and access, signed mod and div, process call, context redesign, logical operations, addmod mulmod operations
 
 ## To Do
 
