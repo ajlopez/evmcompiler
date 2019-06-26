@@ -105,7 +105,7 @@ exports['process contract with array variable declaration '] = function (test) {
     test.equal(data.scope, 'contract');
     test.equal(data.type, 'uint256[]');
     test.strictEqual(data.offset, 0);
-    test.strictEqual(data.size, 10);
+    test.strictEqual(data.length, 10);
     
     const counter = context.get('counter');
     
