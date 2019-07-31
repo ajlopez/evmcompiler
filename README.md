@@ -33,7 +33,9 @@ TBD
 
 ## References
 
-TBD
+- [Introducing Elle: A formally-verified EVM compiler to write more secure Ethereum code](https://media.consensys.net/introducing-elle-a-formally-verified-evm-compiler-to-write-more-secure-ethereum-code-90d1038e1886)
+- [Mythril: Security analysis tool for EVM bytecode](https://github.com/ConsenSys/mythril)
+- [K Semantics of the Ethereum Virtual Machine (EVM)](https://github.com/kframework/evm-semantics)
 
 ## Contribution
 
