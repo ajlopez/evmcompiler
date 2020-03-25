@@ -37,6 +37,7 @@ TBD
 - [Mythril: Security analysis tool for EVM bytecode](https://github.com/ConsenSys/mythril)
 - [K Semantics of the Ethereum Virtual Machine (EVM)](https://github.com/kframework/evm-semantics)
 - [KVyper: Semantics of Vyper in K](https://github.com/kframework/vyper-semantics)
+- [Solidity optimizing storage](https://github.com/Uniswap/uniswap-v2-core/pull/59)
 
 ## Contribution
 
