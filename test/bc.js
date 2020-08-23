@@ -117,14 +117,15 @@ exports['compile codesize, codecopy, returndatasize, returndatacopy'] = function
     test.equal(result, '38393d3e');
 };
 
-exports['compile gasprice, extcodesize, extcodecopy'] = function (test) {
+exports['compile gasprice, extcodesize, extcodecopy, extcodehash'] = function (test) {
     const result = bc.compiler()
         .gasprice()
         .extcodesize()
         .extcodecopy()
+        .extcodehash()
         .bytecodes();
         
-    test.equal(result, '3a3b3c');
+    test.equal(result, '3a3b3c3f');
 };
 
 exports['compile blockhash, coinbase, timestamp, number, difficulty, gaslimit'] = function (test) {
