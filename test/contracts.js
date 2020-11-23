@@ -3,8 +3,8 @@ const compilers = require('../lib/compilers');
 const keccak = require('../lib/sha3').keccak_256;
 const geast = require('geast');
 
-geast.node('method', [ 'name', 'type', 'visibility', 'arguments', 'body' ]);
 geast.node('contract', [ 'name', 'body' ]);
+geast.node('method', [ 'name', 'type', 'arguments', 'body', 'attributes' ]);
 
 function toHex2(value) {
     let result = value.toString(16);
@@ -28,7 +28,7 @@ exports['process contract with empty method'] = function (test) {
     
     const node = geast.contract('Counter',
         geast.sequence([
-            geast.method('foo', 'void', 'public', [], geast.sequence([]))
+            geast.method('foo', 'void', [], geast.sequence([]), { visibility: 'public' })
         ]));
         
     compiler.process(node);
@@ -151,10 +151,11 @@ exports['process contract with variable declaration and method returning variabl
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('getCounter', 'uint', 'public', [], 
+            geast.method('getCounter', 'uint', [], 
                 geast.sequence([
                     geast.return(geast.name('counter'))
-                ])
+                ]),
+                { visibility: 'public' }
             )
         ]));
         
@@ -202,13 +203,14 @@ exports['process contract with variable declaration and method modifying variabl
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('increment', 'void', 'public', [], 
+            geast.method('increment', 'void', [], 
                 geast.sequence([
                     geast.assign(
                         geast.name('counter'), 
                         geast.binary('+', geast.name('counter'), geast.constant(1))
                     )
-                ])
+                ]),
+                { visibility: 'public' }
             )
         ]));
         
@@ -256,13 +258,14 @@ exports['process contract with variable declaration and method modifying variabl
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('add', 'void', 'public', [ geast.argument('value', 'uint') ], 
+            geast.method('add', 'void', [ geast.argument('value', 'uint') ], 
                 geast.sequence([
                     geast.assign(
                         geast.name('counter'), 
                         geast.binary('+', geast.name('counter'), geast.name('value'))
                     )
-                ])
+                ]),
+                { visibility: 'public' }
             )
         ]));
         

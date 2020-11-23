@@ -5,10 +5,12 @@ const contexts = require('../lib/contexts');
 const geast = require('geast');
 const VM = require('ethereumjs-vm');
 
+geast.node('method', [ 'name', 'type', 'arguments', 'body', 'attributes' ]);
+
 exports['run empty method'] = function (test) {
     const compiler = compilers.compiler();
     compiler.context(contexts.context());
-    const node = geast.method('foo', 'void', 'public', [], geast.sequence([]));
+    const node = geast.method('foo', 'void', [], geast.sequence([]), { visibility: 'public' });
     
     compiler.process(node);
     
@@ -33,8 +35,8 @@ exports['run empty method'] = function (test) {
 exports['run method that returns a constant'] = function (test) {
     const compiler = compilers.compiler();
     compiler.context(contexts.context());
-    const node = geast.method('foo', 'uint', 'public', [], 
-        geast.sequence([ geast.return(geast.constant(42)) ]));
+    const node = geast.method('foo', 'uint', [], 
+        geast.sequence([ geast.return(geast.constant(42)) ]), { visibility: 'public' });
     
     compiler.process(node);
     
@@ -61,7 +63,7 @@ exports['run method that receives an argument and returns value'] = function (te
     const compiler = compilers.compiler();
     const context = contexts.context();
     compiler.context(context);
-    const node = geast.method('foo', 'uint', 'public',
+    const node = geast.method('foo', 'uint',
         [ geast.argument('value', 'uint') ], 
         geast.sequence([
             geast.return(
@@ -69,7 +71,8 @@ exports['run method that receives an argument and returns value'] = function (te
                     geast.name('value'), 
                     geast.constant(1))
             )
-        ])
+        ]),
+        { visibility: 'public' }
     );
     
     compiler.process(node);
@@ -97,13 +100,14 @@ exports['run method that receives an argument and returns value'] = function (te
 exports['run method that declares local variables with value and return its value'] = function (test) {
     const compiler = compilers.compiler();
     compiler.context(contexts.context());
-    const node = geast.method('foo', 'uint', 'public',
+    const node = geast.method('foo', 'uint',
         [], 
         geast.sequence([
             geast.variable('answer', 'uint', geast.constant(42)),
             geast.variable('k', 'uint', geast.constant(0)),
             geast.return(geast.name('answer'))
-        ])
+        ]),
+        { visibility: 'public' }
     );
     
     compiler.process(node);
@@ -131,7 +135,7 @@ exports['run method that declares local variables with value and return its valu
 exports['run method that declares local variable with value, modify it and return its value'] = function (test) {
     const compiler = compilers.compiler();
     compiler.context(contexts.context());
-    const node = geast.method('foo', 'uint', 'public',
+    const node = geast.method('foo', 'uint',
         [], 
         geast.sequence([
             geast.variable('answer', 'uint', geast.constant(21)),
@@ -140,7 +144,8 @@ exports['run method that declares local variable with value, modify it and retur
                 geast.binary('*', geast.name('answer'), geast.constant(2))
             ),
             geast.return(geast.name('answer'))
-        ])
+        ]),
+        { visibility: 'public' }
     );
     
     compiler.process(node);
@@ -174,7 +179,6 @@ exports['run loop command using local variable'] = function (test) {
     const node = geast.method(
         'foo',
         'void',
-        'public',
         [],
         geast.sequence([
             geast.variable('k', 'uint'),
@@ -186,7 +190,8 @@ exports['run loop command using local variable'] = function (test) {
                 )
             ),
             geast.return(geast.name('k'))
-        ])
+        ]),
+        { visibility: 'public' }
     );
     
     compiler.process(node);
@@ -219,7 +224,6 @@ exports['run loop command with break'] = function (test) {
     const node = geast.method(
         'foo',
         'void',
-        'public',
         [],
         geast.sequence([
             geast.variable('k', 'uint'),
@@ -228,7 +232,8 @@ exports['run loop command with break'] = function (test) {
                 geast.break()
             ),
             geast.return(geast.name('k'))
-        ])
+        ]),
+        { visibility: 'public' }
     );
     
     compiler.process(node);
@@ -261,7 +266,6 @@ exports['run loop command with continue'] = function (test) {
     const node = geast.method(
         'foo',
         'void',
-        'public',
         [],
         geast.sequence([
             geast.variable('k', 'uint'),
@@ -276,7 +280,8 @@ exports['run loop command with continue'] = function (test) {
                 ])
             ),
             geast.return(geast.name('k'))
-        ])
+        ]),
+        { visibility: 'public' }
     );
     
     compiler.process(node);
@@ -309,7 +314,6 @@ exports['run for command'] = function (test) {
     const node = geast.method(
         'foo',
         'void',
-        'public',
         [],
         geast.sequence([
             geast.variable('k', 'uint'),
@@ -327,7 +331,8 @@ exports['run for command'] = function (test) {
                 )
             ),
             geast.return(geast.name('total'))
-        ])
+        ]),
+        { visibility: 'public' }
     );
     
     compiler.process(node);
@@ -360,7 +365,6 @@ exports['run for command with break'] = function (test) {
     const node = geast.method(
         'foo',
         'void',
-        'public',
         [],
         geast.sequence([
             geast.variable('k', 'uint'),
@@ -381,7 +385,8 @@ exports['run for command with break'] = function (test) {
                 ])
             ),
             geast.return(geast.name('total'))
-        ])
+        ]),
+        { visibility: 'public' }
     );
     
     compiler.process(node);
@@ -414,7 +419,6 @@ exports['run for command without pre'] = function (test) {
     const node = geast.method(
         'foo',
         'void',
-        'public',
         [],
         geast.sequence([
             geast.variable('k', 'uint'),
@@ -432,7 +436,8 @@ exports['run for command without pre'] = function (test) {
                 )
             ),
             geast.return(geast.name('total'))
-        ])
+        ]),
+        { visibility: 'public' }
     );
     
     compiler.process(node);
@@ -465,7 +470,6 @@ exports['run for command without pre and post'] = function (test) {
     const node = geast.method(
         'foo',
         'void',
-        'public',
         [],
         geast.sequence([
             geast.variable('k', 'uint'),
@@ -486,7 +490,8 @@ exports['run for command without pre and post'] = function (test) {
                 ])
             ),
             geast.return(geast.name('total'))
-        ])
+        ]),
+        { visibility: 'public' }
     );
     
     compiler.process(node);
@@ -519,7 +524,6 @@ exports['run for command with continue'] = function (test) {
     const node = geast.method(
         'foo',
         'void',
-        'public',
         [],
         geast.sequence([
             geast.variable('k', 'uint'),
@@ -545,7 +549,8 @@ exports['run for command with continue'] = function (test) {
                 ])
             ),
             geast.return(geast.name('total'))
-        ])
+        ]),
+        { visibility: 'public' }
     );
     
     compiler.process(node);

@@ -7,7 +7,7 @@ const contexts = require('../lib/contexts');
 exports['process empty method'] = function (test) {
     const compiler = compilers.compiler();
     compiler.context(contexts.context());
-    const node = geast.method('foo', 'void', 'public', [], geast.sequence([]));
+    const node = geast.method('foo', 'void', [], geast.sequence([]), { visibility: 'public' });
     
     compiler.process(node);
     
@@ -17,7 +17,7 @@ exports['process empty method'] = function (test) {
 exports['process private method that receives an argument and returns value'] = function (test) {
     const compiler = compilers.compiler();
     compiler.context(contexts.context());
-    const node = geast.method('foo', 'uint', 'private',
+    const node = geast.method('foo', 'uint',
         [ geast.argument('value', 'uint') ], 
         geast.sequence([
             geast.return(
@@ -25,7 +25,8 @@ exports['process private method that receives an argument and returns value'] = 
                     geast.name('value'), 
                     geast.constant(1))
             )
-        ])
+        ]),
+        { visibility: 'private' }
     );
     
     compiler.process(node);
@@ -34,3 +35,4 @@ exports['process private method that receives an argument and returns value'] = 
     
     test.equal(code, "5b600181016000525060206000f3");
 }
+

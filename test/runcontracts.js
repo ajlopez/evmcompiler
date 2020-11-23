@@ -4,15 +4,15 @@ const keccak = require('../lib/sha3').keccak_256;
 const geast = require('geast');
 const VM = require('ethereumjs-vm');
 
-geast.node('method', [ 'name', 'type', 'visibility', 'arguments', 'body' ]);
 geast.node('contract', [ 'name', 'body' ]);
+geast.node('method', [ 'name', 'type', 'arguments', 'body', 'attributes' ]);
 
 exports['run contract with empty method'] = function (test) {
     const compiler = compilers.compiler();
     
     const node = geast.contract('Counter',
         geast.sequence([
-            geast.method('foo', 'void', 'public', [], geast.sequence([]))
+            geast.method('foo', 'void', [], geast.sequence([]), { visibility: 'public' })
         ]));
         
     compiler.process(node);
@@ -39,10 +39,11 @@ exports['run contract with variable declaration and method returning variable'] 
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('getCounter', 'uint', 'public', [], 
+            geast.method('getCounter', 'uint', [], 
                 geast.sequence([
                     geast.return(geast.name('counter'))
-                ])
+                ]), 
+                { visibility: 'public' }
             )
         ]));
         
@@ -71,18 +72,20 @@ exports['process contract with variable declaration and method modifying variabl
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('getCounter', 'uint', 'public', [], 
+            geast.method('getCounter', 'uint', [], 
                 geast.sequence([
                     geast.return(geast.name('counter'))
-                ])
+                ]),
+                { visibility: 'public' }
             ),
-            geast.method('increment', 'void', 'public', [], 
+            geast.method('increment', 'void', [], 
                 geast.sequence([
                     geast.assign(
                         geast.name('counter'), 
                         geast.binary('+', geast.name('counter'), geast.constant(1))
                     )
-                ])
+                ]),
+                { visibility: 'public' }
             )
         ]));
         
@@ -120,26 +123,29 @@ exports['process contract with variable declaration and two methods modifying va
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('getCounter', 'uint', 'public', [], 
+            geast.method('getCounter', 'uint', [], 
                 geast.sequence([
                     geast.return(geast.name('counter'))
-                ])
+                ]),
+                { visibility: 'public' }
             ),
-            geast.method('increment', 'void', 'public', [], 
+            geast.method('increment', 'void', [], 
                 geast.sequence([
                     geast.assign(
                         geast.name('counter'), 
                         geast.binary('+', geast.name('counter'), geast.constant(1))
                     )
-                ])
+                ]),
+                { visibility: 'public' }
             ),
-            geast.method('add', 'void', 'public', [ geast.argument('value', 'uint') ], 
+            geast.method('add', 'void', [ geast.argument('value', 'uint') ], 
                 geast.sequence([
                     geast.assign(
                         geast.name('counter'), 
                         geast.binary('+', geast.name('counter'), geast.name('value'))
                     )
-                ])
+                ]),
+                { visibility: 'public' }
             )
         ]));
         
