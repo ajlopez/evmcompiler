@@ -112,11 +112,11 @@ exports['set and get value in parent context'] = function (test) {
     test.equal(context.scope(), 'contract');
 };
 
-exports['add variables to contract and method'] = function (test) {
+exports['add variables to contract and function'] = function (test) {
     const parent = contexts.context();
     parent.scope('contract');
     const context = contexts.context(parent);
-    context.scope('method');
+    context.scope('function');
     
     parent.set('counter', { name: 'counter', type: 'uint' });
     context.set('k', { name: 'k', type: 'uint' });
@@ -125,7 +125,7 @@ exports['add variables to contract and method'] = function (test) {
     test.equal(parent.nvars(), 1);
     test.equal(context.nvars(), 2);
     test.deepEqual(parent.get('counter'), { name: 'counter', type: 'uint', offset: 0, scope: 'contract' });
-    test.deepEqual(context.get('k'), { name: 'k', type: 'uint', offset: 0, scope: 'method' });
-    test.deepEqual(context.get('j'), { name: 'j', type: 'uint', offset: 1, scope: 'method' });
+    test.deepEqual(context.get('k'), { name: 'k', type: 'uint', offset: 0, scope: 'function' });
+    test.deepEqual(context.get('j'), { name: 'j', type: 'uint', offset: 1, scope: 'function' });
 };
 

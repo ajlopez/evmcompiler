@@ -4,7 +4,7 @@ const keccak = require('../lib/sha3').keccak_256;
 const geast = require('geast');
 
 geast.node('contract', [ 'name', 'body' ]);
-geast.node('method', [ 'name', 'type', 'arguments', 'body', 'attributes' ]);
+geast.node('function', [ 'name', 'type', 'arguments', 'body', 'attributes' ]);
 
 function toHex2(value) {
     let result = value.toString(16);
@@ -23,12 +23,12 @@ function resolve(bytecodes, value) {
     + bytecodes.substring(offset + 4);
 }
 
-exports['process contract with empty method'] = function (test) {
+exports['process contract with empty function'] = function (test) {
     const compiler = compilers.compiler();
     
     const node = geast.contract('Counter',
         geast.sequence([
-            geast.method('foo', 'void', [], geast.sequence([]), { visibility: 'public' })
+            geast.function('foo', 'void', [], geast.sequence([]), { visibility: 'public' })
         ]));
         
     compiler.process(node);
@@ -43,10 +43,10 @@ exports['process contract with empty method'] = function (test) {
     
     prologue += '5bfd';
     
-    const offmethod = prologue.length / 2;
+    const offfunction = prologue.length / 2;
     
     prologue = resolve(prologue, offrevert);
-    prologue = resolve(prologue, offmethod);
+    prologue = resolve(prologue, offfunction);
     
     test.equal(compiler.bytecodes(), 
         prologue + "5b00");
@@ -145,13 +145,13 @@ exports['process contract with two variable declaration'] = function (test) {
     test.strictEqual(total.offset, 1);
 }
 
-exports['process contract with variable declaration and method returning variable'] = function (test) {
+exports['process contract with variable declaration and function returning variable'] = function (test) {
     const compiler = compilers.compiler();
     
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('getCounter', 'uint', [], 
+            geast.function('getCounter', 'uint', [], 
                 geast.sequence([
                     geast.return(geast.name('counter'))
                 ]),
@@ -171,10 +171,10 @@ exports['process contract with variable declaration and method returning variabl
     
     prologue += '5bfd';
     
-    const offmethod = prologue.length / 2;
+    const offfunction = prologue.length / 2;
     
     prologue = resolve(prologue, offrevert);
-    prologue = resolve(prologue, offmethod);
+    prologue = resolve(prologue, offfunction);
 
     test.equal(compiler.bytecodes(), 
         prologue + "5b60005460005260206000f3");
@@ -197,13 +197,13 @@ exports['process contract with variable declaration and method returning variabl
     test.equal(getCounter.hash, keccak("getCounter()").substring(0, 8));
 }
 
-exports['process contract with variable declaration and method modifying variable'] = function (test) {
+exports['process contract with variable declaration and function modifying variable'] = function (test) {
     const compiler = compilers.compiler();
     
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('increment', 'void', [], 
+            geast.function('increment', 'void', [], 
                 geast.sequence([
                     geast.assign(
                         geast.name('counter'), 
@@ -226,10 +226,10 @@ exports['process contract with variable declaration and method modifying variabl
     
     prologue += '5bfd';
     
-    const offmethod = prologue.length / 2;
+    const offfunction = prologue.length / 2;
     
     prologue = resolve(prologue, offrevert);
-    prologue = resolve(prologue, offmethod);
+    prologue = resolve(prologue, offfunction);
 
     test.equal(compiler.bytecodes(), 
         prologue + "5b60016000540160005500");
@@ -252,13 +252,13 @@ exports['process contract with variable declaration and method modifying variabl
     test.equal(increment.hash, keccak("increment()").substring(0, 8));
 }
 
-exports['process contract with variable declaration and method modifying variable using argument'] = function (test) {
+exports['process contract with variable declaration and function modifying variable using argument'] = function (test) {
     const compiler = compilers.compiler();
     
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('add', 'void', [ geast.argument('value', 'uint') ], 
+            geast.function('add', 'void', [ geast.argument('value', 'uint') ], 
                 geast.sequence([
                     geast.assign(
                         geast.name('counter'), 
@@ -281,10 +281,10 @@ exports['process contract with variable declaration and method modifying variabl
     
     prologue += '5bfd';
     
-    const offmethod = prologue.length / 2;
+    const offfunction = prologue.length / 2;
     
     prologue = resolve(prologue, offrevert);
-    prologue = resolve(prologue, offmethod);
+    prologue = resolve(prologue, offfunction);
 
     test.equal(compiler.bytecodes(), 
         prologue + "5b6004356000540160005500");

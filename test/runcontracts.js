@@ -5,14 +5,14 @@ const geast = require('geast');
 const VM = require('ethereumjs-vm');
 
 geast.node('contract', [ 'name', 'body' ]);
-geast.node('method', [ 'name', 'type', 'arguments', 'body', 'attributes' ]);
+geast.node('function', [ 'name', 'type', 'arguments', 'body', 'attributes' ]);
 
-exports['run contract with empty method'] = function (test) {
+exports['run contract with empty function'] = function (test) {
     const compiler = compilers.compiler();
     
     const node = geast.contract('Counter',
         geast.sequence([
-            geast.method('foo', 'void', [], geast.sequence([]), { visibility: 'public' })
+            geast.function('foo', 'void', [], geast.sequence([]), { visibility: 'public' })
         ]));
         
     compiler.process(node);
@@ -33,13 +33,13 @@ exports['run contract with empty method'] = function (test) {
     });
 }
 
-exports['run contract with variable declaration and method returning variable'] = function (test) {
+exports['run contract with variable declaration and function returning variable'] = function (test) {
     const compiler = compilers.compiler();
     
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('getCounter', 'uint', [], 
+            geast.function('getCounter', 'uint', [], 
                 geast.sequence([
                     geast.return(geast.name('counter'))
                 ]), 
@@ -66,19 +66,19 @@ exports['run contract with variable declaration and method returning variable'] 
     });
 }
 
-exports['process contract with variable declaration and method modifying variable'] = function (test) {
+exports['process contract with variable declaration and function modifying variable'] = function (test) {
     const compiler = compilers.compiler();
     
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('getCounter', 'uint', [], 
+            geast.function('getCounter', 'uint', [], 
                 geast.sequence([
                     geast.return(geast.name('counter'))
                 ]),
                 { visibility: 'public' }
             ),
-            geast.method('increment', 'void', [], 
+            geast.function('increment', 'void', [], 
                 geast.sequence([
                     geast.assign(
                         geast.name('counter'), 
@@ -117,19 +117,19 @@ exports['process contract with variable declaration and method modifying variabl
     });    
 }
 
-exports['process contract with variable declaration and two methods modifying variable'] = function (test) {
+exports['process contract with variable declaration and two functions modifying variable'] = function (test) {
     const compiler = compilers.compiler();
     
     const node = geast.contract('Counter',
         geast.sequence([
             geast.variable('counter', 'uint'),
-            geast.method('getCounter', 'uint', [], 
+            geast.function('getCounter', 'uint', [], 
                 geast.sequence([
                     geast.return(geast.name('counter'))
                 ]),
                 { visibility: 'public' }
             ),
-            geast.method('increment', 'void', [], 
+            geast.function('increment', 'void', [], 
                 geast.sequence([
                     geast.assign(
                         geast.name('counter'), 
@@ -138,7 +138,7 @@ exports['process contract with variable declaration and two methods modifying va
                 ]),
                 { visibility: 'public' }
             ),
-            geast.method('add', 'void', [ geast.argument('value', 'uint') ], 
+            geast.function('add', 'void', [ geast.argument('value', 'uint') ], 
                 geast.sequence([
                     geast.assign(
                         geast.name('counter'), 

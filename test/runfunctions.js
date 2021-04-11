@@ -5,12 +5,12 @@ const contexts = require('../lib/contexts');
 const geast = require('geast');
 const VM = require('ethereumjs-vm');
 
-geast.node('method', [ 'name', 'type', 'arguments', 'body', 'attributes' ]);
+geast.node('function', [ 'name', 'type', 'arguments', 'body', 'attributes' ]);
 
-exports['run empty method'] = function (test) {
+exports['run empty function'] = function (test) {
     const compiler = compilers.compiler();
     compiler.context(contexts.context());
-    const node = geast.method('foo', 'void', [], geast.sequence([]), { visibility: 'public' });
+    const node = geast.function('foo', 'void', [], geast.sequence([]), { visibility: 'public' });
     
     compiler.process(node);
     
@@ -32,10 +32,10 @@ exports['run empty method'] = function (test) {
     });
 }
 
-exports['run method that returns a constant'] = function (test) {
+exports['run function that returns a constant'] = function (test) {
     const compiler = compilers.compiler();
     compiler.context(contexts.context());
-    const node = geast.method('foo', 'uint', [], 
+    const node = geast.function('foo', 'uint', [], 
         geast.sequence([ geast.return(geast.constant(42)) ]), { visibility: 'public' });
     
     compiler.process(node);
@@ -59,11 +59,11 @@ exports['run method that returns a constant'] = function (test) {
     });
 }
 
-exports['run method that receives an argument and returns value'] = function (test) {
+exports['run function that receives an argument and returns value'] = function (test) {
     const compiler = compilers.compiler();
     const context = contexts.context();
     compiler.context(context);
-    const node = geast.method('foo', 'uint',
+    const node = geast.function('foo', 'uint',
         [ geast.argument('value', 'uint') ], 
         geast.sequence([
             geast.return(
@@ -97,10 +97,10 @@ exports['run method that receives an argument and returns value'] = function (te
     });
 }
 
-exports['run method that declares local variables with value and return its value'] = function (test) {
+exports['run function that declares local variables with value and return its value'] = function (test) {
     const compiler = compilers.compiler();
     compiler.context(contexts.context());
-    const node = geast.method('foo', 'uint',
+    const node = geast.function('foo', 'uint',
         [], 
         geast.sequence([
             geast.variable('answer', 'uint', geast.constant(42)),
@@ -132,10 +132,10 @@ exports['run method that declares local variables with value and return its valu
     });
 }
 
-exports['run method that declares local variable with value, modify it and return its value'] = function (test) {
+exports['run function that declares local variable with value, modify it and return its value'] = function (test) {
     const compiler = compilers.compiler();
     compiler.context(contexts.context());
-    const node = geast.method('foo', 'uint',
+    const node = geast.function('foo', 'uint',
         [], 
         geast.sequence([
             geast.variable('answer', 'uint', geast.constant(21)),
@@ -173,10 +173,10 @@ exports['run method that declares local variable with value, modify it and retur
 exports['run loop command using local variable'] = function (test) {
     const compiler = compilers.compiler();
     
-    compiler.context(contexts.context('method'));
+    compiler.context(contexts.context('function'));
     compiler.enterfn(0);
     
-    const node = geast.method(
+    const node = geast.function(
         'foo',
         'void',
         [],
@@ -218,10 +218,10 @@ exports['run loop command using local variable'] = function (test) {
 exports['run loop command with break'] = function (test) {
     const compiler = compilers.compiler();
     
-    compiler.context(contexts.context('method'));
+    compiler.context(contexts.context('function'));
     compiler.enterfn(0);
     
-    const node = geast.method(
+    const node = geast.function(
         'foo',
         'void',
         [],
@@ -260,10 +260,10 @@ exports['run loop command with break'] = function (test) {
 exports['run loop command with continue'] = function (test) {
     const compiler = compilers.compiler();
     
-    compiler.context(contexts.context('method'));
+    compiler.context(contexts.context('function'));
     compiler.enterfn(0);
     
-    const node = geast.method(
+    const node = geast.function(
         'foo',
         'void',
         [],
@@ -308,10 +308,10 @@ exports['run loop command with continue'] = function (test) {
 exports['run for command'] = function (test) {
     const compiler = compilers.compiler();
     
-    compiler.context(contexts.context('method'));
+    compiler.context(contexts.context('function'));
     compiler.enterfn(0);
     
-    const node = geast.method(
+    const node = geast.function(
         'foo',
         'void',
         [],
@@ -359,10 +359,10 @@ exports['run for command'] = function (test) {
 exports['run for command with break'] = function (test) {
     const compiler = compilers.compiler();
     
-    compiler.context(contexts.context('method'));
+    compiler.context(contexts.context('function'));
     compiler.enterfn(0);
     
-    const node = geast.method(
+    const node = geast.function(
         'foo',
         'void',
         [],
@@ -413,10 +413,10 @@ exports['run for command with break'] = function (test) {
 exports['run for command without pre'] = function (test) {
     const compiler = compilers.compiler();
     
-    compiler.context(contexts.context('method'));
+    compiler.context(contexts.context('function'));
     compiler.enterfn(0);
     
-    const node = geast.method(
+    const node = geast.function(
         'foo',
         'void',
         [],
@@ -464,10 +464,10 @@ exports['run for command without pre'] = function (test) {
 exports['run for command without pre and post'] = function (test) {
     const compiler = compilers.compiler();
     
-    compiler.context(contexts.context('method'));
+    compiler.context(contexts.context('function'));
     compiler.enterfn(0);
     
-    const node = geast.method(
+    const node = geast.function(
         'foo',
         'void',
         [],
@@ -518,10 +518,10 @@ exports['run for command without pre and post'] = function (test) {
 exports['run for command with continue'] = function (test) {
     const compiler = compilers.compiler();
     
-    compiler.context(contexts.context('method'));
+    compiler.context(contexts.context('function'));
     compiler.enterfn(0);
     
-    const node = geast.method(
+    const node = geast.function(
         'foo',
         'void',
         [],

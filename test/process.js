@@ -170,7 +170,7 @@ exports['process indexed storage variable'] = function (test) {
 exports['process local variable'] = function (test) {
     const compiler = compilers.compiler();
     const context = contexts.context();
-    context.set('foo', { name: 'foo', type: 'uint', offset: 1, scope: 'method' });
+    context.set('foo', { name: 'foo', type: 'uint', offset: 1, scope: 'function' });
     context.fn({ arity: 0, ssize: -3 });
     compiler.context(context);
     
