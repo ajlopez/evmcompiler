@@ -15,6 +15,7 @@ TBD
 - 0.0.5 For command, fnhash in API, stop in void method, local variables management first implementation
 - 0.0.6 Array variable declaration and access, signed mod and div, process call, context redesign, logical operations, addmod mulmod operations
 - 0.0.7 Attributes in method node
+- 0.0.8 Using function instead of method
 
 ## To Do
 
